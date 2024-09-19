@@ -121,9 +121,11 @@ public class ConectividadCRUD {
         int fila = tabla.getSelectedRow();
         int columna = tabla.getSelectedColumn();
 
-        Object valorDeCasilla = tabla.getValueAt(fila, columna);
-
-        actualizarRegistro(modelo, tabla, valorDeCasilla);
+        // Verificar que una fila y una columna han sido seleccionadas
+        if (fila != -1 && columna != -1) {
+            Object valorDeCasilla = tabla.getValueAt(fila, columna);
+            actualizarRegistro(modelo, tabla, valorDeCasilla);
+        }
     }
 
 
