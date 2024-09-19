@@ -1,4 +1,4 @@
-package com.example.primerproyectooscar;
+package com.example.primerproyecto;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -1,4 +1,4 @@
-package com.example.primerproyectooscar;
+package com.example.primerproyecto;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
