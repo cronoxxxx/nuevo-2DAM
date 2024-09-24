@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MiPrimerProyecto_AdrianSaavedra</string>
+    <string name="escriba_algo">Escriba algo</string>
+    <string name="introduzca_un_valor">Introduzca un valor</string>
+    <string name="presione_aqui">Presione aqui</string>
+</resources>
