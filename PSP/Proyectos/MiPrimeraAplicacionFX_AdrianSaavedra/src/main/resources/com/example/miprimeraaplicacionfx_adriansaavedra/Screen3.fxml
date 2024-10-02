@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<BorderPane fx:id="borderPane" prefHeight="484.0" prefWidth="689.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miprimeraaplicacionfx_adriansaavedra.ui.PantallaSecondViewModel">
+    <top>
+        <VBox>
+            <HBox alignment="CENTER" prefHeight="28.0" prefWidth="714.0" spacing="100">
+                <Label text="MENSAJES RECIBIDOS">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+                <Label text="ENVIAR MENSAJE">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+            </HBox>
+        </VBox>
+    </top>
 
-</AnchorPane>
+    <center>
+        <HBox prefHeight="430.0" prefWidth="602.0" spacing="20">
+            <TableView fx:id="tvTablaMensajes" prefHeight="456.0" prefWidth="359.0">
+                <columns>
+                    <TableColumn fx:id="tcNombreUsuario" prefWidth="75.0" text="Nombre" />
+                    <TableColumn fx:id="tcMensaje" prefWidth="282.4" text="Mensaje" />
+                </columns>
+            </TableView>
+            <VBox spacing="10">
+                <Label text="Nombre de usuario:" />
+                <TextField fx:id="tfNombreEnviar" />
+                <Label text="Enviar mensaje:" />
+                <TextArea fx:id="taMensajeEnviado" prefHeight="200.0" prefWidth="200.0" />
+                <Button fx:id="btnMandarMensaje" mnemonicParsing="false" onAction="#comprobarUsuario" prefHeight="26.0" prefWidth="82.0" text="Enviar" />
+            <Label fx:id="mensaje" text="Acceder a la otra cuenta para ver el mensaje" />
+            <Label fx:id="content" text="Content" />
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

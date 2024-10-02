@@ -3,7 +3,7 @@ document.getElementById("bCheck").addEventListener("click", function (event) {
     // Get username and password from the form
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
-
+    //window.location.href = "mainPage.html"; 
     getCredentials(username, password)
 
 })
@@ -17,7 +17,7 @@ password: p
 };
 
 // Realizar la solicitud POST
-fetch("https://informatica.iesquevedo.es/marcas/login", {
+fetch("http://localhost:8080/login", {
 method: 'POST',
 headers: {
     'Content-Type': 'application/json'

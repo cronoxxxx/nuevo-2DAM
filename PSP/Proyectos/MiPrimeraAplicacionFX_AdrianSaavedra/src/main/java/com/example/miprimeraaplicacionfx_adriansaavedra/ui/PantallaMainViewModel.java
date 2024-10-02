@@ -1,79 +1,58 @@
 package com.example.miprimeraaplicacionfx_adriansaavedra.ui;
 
-import com.example.miprimeraaplicacionfx_adriansaavedra.Constantes;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.Grupo;
-import com.example.miprimeraaplicacionfx_adriansaavedra.dao.Grupos;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.Mensaje;
-import javafx.event.ActionEvent;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Grupo;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Mensaje;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionGrupos;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionUsuarios;
+import com.example.miprimeraaplicacionfx_adriansaavedra.ui.model.MainViewModel;
+import javafx.fxml.*;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
-@Setter@Getter
-public class SegundaPantallaGrupos implements Initializable {
-    public MenuItem firstView;
-    public MenuItem secondVIew;
-    public MenuItem thirdView;
-    public MenuBar MainManu;
-    public AnchorPane anchorPane;
-    public TableView<Mensaje> tvBuzonGrupo;
-    public TableColumn<Mensaje, String> tcUsuario;
-    public TableColumn<Mensaje, String>  tcMensaje;
-    public Button btnAccederGrupo;
-    public Button btnCrearGrupo;
-    public TextField tfnuevoNombre;
-    public PasswordField tfnuevaContra;
-    public TextField tfNombre;
-    public PasswordField tfContra;
-    public Button btnMensaje;
-    public TextArea taMensaje;
-    private Grupos grupos;
-private MainViewModel mainViewModel;
+
+@Data
+public class PantallaMainViewModel implements Initializable {
+
+    @FXML
+    private Label content;
+    @FXML
+    private TableView<Mensaje> tvBuzonGrupo;
+    @FXML
+    private TableColumn<Mensaje, String> tcUsuario;
+    @FXML
+    private TableColumn<Mensaje, String> tcMensaje;
+    @FXML
+    private Button btnAccederGrupo;
+    @FXML
+    private Button btnCrearGrupo;
+    @FXML
+    private TextField tfnuevoNombre;
+    @FXML
+    private PasswordField tfnuevaContra;
+    @FXML
+    private TextField tfNombre;
+    @FXML
+    private PasswordField tfContra;
+    @FXML
+    private Button btnMensaje;
+    @FXML
+    private TextArea taMensaje;
+    private GestionGrupos gestionGrupos;
+    private MainViewModel mainViewModel;
+    private GestionUsuarios gestionUsuarios;
 
 
-    public SegundaPantallaGrupos() {
-        this.grupos = new Grupos();
-        mainViewModel = new MainViewModel(null);}
+    public PantallaMainViewModel() {
 
-    public void menuClick(ActionEvent actionEvent) {
-            MainManu.setVisible(true);
-            Pane view;
-            switch (((MenuItem) actionEvent.getSource()).getId()) {
-                case "firstView":
-                    FXMLLoader loader = new FXMLLoader();
-                    view = loader.getView("Screen1.fxml");
-                    if (view != null) {
-                        anchorPane.getChildren().setAll(view);
-
-                    }
-                    break;
-                case "secondVIew":
-                    loader = new FXMLLoader();
-                    view = loader.getView("Screen2.fxml");
-                    if (view != null) {
-                        anchorPane.getChildren().setAll(view);
-
-                    }
-                    break;
-                case "thirdView":
-                    loader = new FXMLLoader();
-                    view = loader.getView("Screen3.fxml");
-                    if (view != null) {
-                        anchorPane.getChildren().setAll(view);
-
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-
+        this.gestionUsuarios = new GestionUsuarios();
+        this.gestionGrupos = new GestionGrupos();
+        mainViewModel = new MainViewModel(null);
 
     }
 
@@ -81,22 +60,30 @@ private MainViewModel mainViewModel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        MainManu.setVisible(true);
-    tvBuzonGrupo.setItems(mainViewModel.getMensajesObservableList());
 
-    tcUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
-    tcMensaje.setCellValueFactory(new PropertyValueFactory<>("texto"));
-    btnMensaje.setDisable(true);
-    taMensaje.setDisable(true);
+        tvBuzonGrupo.setItems(mainViewModel.getMensajesObservableList());
+        tcUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
+        tcMensaje.setCellValueFactory(new PropertyValueFactory<>("texto"));
+        btnMensaje.setDisable(true);
+        taMensaje.setDisable(true);
+        tvBuzonGrupo.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Actualizar el contenido del label con el mensaje seleccionado
+                content.setText(newSelection.getTexto());
+            } else {
+                // Si no hay selección, limpiar el label
+                content.setText("");
+            }
+        });
 
 
     }
 
 
-    public void accederGrupo(ActionEvent actionEvent) {
-        Grupo grupo = null;
+    public void accederGrupo() {
+        Grupo grupo;
         if (!tfNombre.getText().isEmpty() && !tfContra.getText().isEmpty()) {
-            grupo = grupos.accederGrupo(tfNombre.getText(), tfContra.getText());
+            grupo = gestionGrupos.accederGrupo(tfNombre.getText(), tfContra.getText());
 
             if (grupo != null) {
                 btnMensaje.setDisable(false);
@@ -117,23 +104,32 @@ private MainViewModel mainViewModel;
         }
     }
 
-    public void crearGrupo(ActionEvent actionEvent) {
+    public void crearGrupo() {
         if (!tfnuevoNombre.getText().isEmpty() && !tfnuevaContra.getText().isEmpty()) {
-            grupos.getGrupoList().add(new Grupo(tfnuevoNombre.getText(), tfnuevaContra.getText()));
+            gestionGrupos.obtenerGrupos().add(new Grupo(tfnuevoNombre.getText(), tfnuevaContra.getText()));
             tfnuevaContra.clear();
             tfnuevoNombre.clear();
-            grupos.saveGrupos(grupos.getGrupoList());
+            gestionGrupos.saveGrupos(gestionGrupos.obtenerGrupos());
         }
 
     }
-    public void enviar(ActionEvent actionEvent) {
+
+    public void enviar() {
         if (!taMensaje.getText().isEmpty()) {
             Grupo actual = mainViewModel.getGrupo();
-            Mensaje nuevo = new Mensaje(Constantes.getUSERNAME(), taMensaje.getText());
-            actual.getMensajes().add(nuevo);
-            tvBuzonGrupo.getItems().add(nuevo);
-            grupos.saveGrupos(grupos.getGrupoList());
-            taMensaje.clear();
+            Optional<Usuario> usuario = gestionUsuarios.obtenerUsuarios().stream()
+                    .filter(Usuario::isIngreso)
+                    .findFirst();
+            if (usuario.isPresent()) {
+                Usuario user = usuario.get();
+                Mensaje nuevo = new Mensaje(user.getNickname(), taMensaje.getText());
+                actual.getMensajes().add(nuevo);
+                tvBuzonGrupo.getItems().add(nuevo);
+                gestionGrupos.saveGrupos(gestionGrupos.obtenerGrupos());
+                taMensaje.clear();
+            }
+
+
         }
     }
 }

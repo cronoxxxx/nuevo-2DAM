@@ -1,10 +1,11 @@
-package com.example.miprimeraaplicacionfx_adriansaavedra;
+package com.example.miprimeraaplicacionfx_adriansaavedra.dao;
 
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.Usuario;
+import com.example.miprimeraaplicacionfx_adriansaavedra.common.Configuracion;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,49 +14,39 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-@Setter@Getter
 public class Usuarios {
-    private final List<Usuario> usuarioList;
+    @Getter
+    private static final List<Usuario> usuarioList;
 
-    public Usuarios() {
+    static {
         usuarioList = loadUsuarios();
     }
 
-    public Usuario getUsuario(String nickname) {
-        return usuarioList.stream().filter(Objects::nonNull).filter(u -> u.getNickname().equals(nickname)).findFirst().orElse(null);
-    }
-    public List<Usuario> loadUsuarios() {
+    private static List<Usuario> loadUsuarios() {
         Gson gson = new GsonBuilder().create();
         Type userListType = new TypeToken<ArrayList<Usuario>>() {}.getType();
 
-        List<Usuario> usuarios = null;
+        List<Usuario> usuarios;
         try {
             usuarios = gson.fromJson(
-                    new FileReader(new Configuracion().loadPathProperties() ),
+                    new FileReader(new Configuracion().loadPathProperties()),
                     userListType);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+           throw new IllegalArgumentException();
         }
         return usuarios;
     }
 
-    public boolean saveUsuarios(List<Usuario> usuarios) {
+    public static boolean saveUsuarios(List<Usuario> usuarios) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try (FileWriter fw = new FileWriter(new Configuracion().loadPathProperties())) {
             gson.toJson(usuarios, fw);
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
     }
-
-
-
-
-
-
 }
+

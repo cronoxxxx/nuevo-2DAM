@@ -1,0 +1,64 @@
+package com.example.hospitalcrud.dao.repositories;
+
+import com.example.hospitalcrud.dao.model.MedRecord;
+import com.example.hospitalcrud.dao.model.Medication;
+import com.example.hospitalcrud.domain.model.MedRecordUI;
+
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class MedRecordRepository {
+    private List<MedRecord> medRecords;
+    private int lastId;
+
+    public MedRecordRepository() {
+        medRecords = new ArrayList<>();
+        lastId = 0;
+    }
+
+    public List<MedRecord> getAll() {
+        return new ArrayList<>(medRecords);
+    }
+
+    public int addMedRecord(MedRecordUI medRecordUI) {
+        lastId++;
+        MedRecord medRecord = MedRecord.builder()
+                .id(lastId)
+                .idPatient(medRecordUI.getIdPatient())
+                .idDoctor(medRecordUI.getIdDoctor())
+                .diagnosis(medRecordUI.getDescription())
+                .date(LocalDate.parse(medRecordUI.getDate()))
+                .medications(convertToMedications(medRecordUI.getMedications(), lastId))
+                .build();
+        medRecords.add(medRecord);
+        return lastId;
+    }
+
+    public void updateMedRecord(MedRecordUI medRecordUI) {
+        for (MedRecord medRecord : medRecords) {
+            if (medRecord.getId() == medRecordUI.getId()) {
+                medRecord.setIdPatient(medRecordUI.getIdPatient());
+                medRecord.setIdDoctor(medRecordUI.getIdDoctor());
+                medRecord.setDiagnosis(medRecordUI.getDescription());
+                medRecord.setDate(LocalDate.parse(medRecordUI.getDate()));
+                medRecord.setMedications(convertToMedications(medRecordUI.getMedications(), medRecord.getId()));
+                break;
+            }
+        }
+    }
+
+    public void deleteMedRecord(int id) {
+        medRecords.removeIf(medRecord -> medRecord.getId() == id);
+    }
+
+    private List<Medication> convertToMedications(List<String> medicationNames, int medRecordId) {
+        List<Medication> medications = new ArrayList<>();
+        for (String name : medicationNames) {
+            medications.add(new Medication(0, name, medRecordId));
+        }
+        return medications;
+    }
+}

@@ -1,0 +1,75 @@
+[
+  {
+    "nickname": "adrian",
+    "password": "1234",
+    "mensajesRecibidos": [
+      {
+        "usuario": "adrian",
+        "texto": "asdasdasd"
+      },
+      {
+        "usuario": "maksim",
+        "texto": "asdasdasd"
+      },
+      {
+        "usuario": "juan",
+        "texto": "hola"
+      },
+      {
+        "usuario": "chispita",
+        "texto": "usuario que cree con exito y ahora me mando un mensaje a esta cuenta"
+      },
+      {
+        "usuario": "adrian",
+        "texto": "aksdkasd"
+      }
+    ],
+    "ingreso": false
+  },
+  {
+    "nickname": "maksim",
+    "password": "bicho",
+    "mensajesRecibidos": [
+      {
+        "usuario": "adrian",
+        "texto": "cr7"
+      }
+    ],
+    "ingreso": false
+  },
+  {
+    "nickname": "hola",
+    "password": "mundo",
+    "mensajesRecibidos": [
+      {
+        "usuario": "adrian",
+        "texto": "adasdsadasd"
+      }
+    ],
+    "ingreso": false
+  },
+  {
+    "nickname": "juan",
+    "password": "juanes",
+    "mensajesRecibidos": [],
+    "ingreso": false
+  },
+  {
+    "nickname": "don",
+    "password": "jose",
+    "mensajesRecibidos": [],
+    "ingreso": false
+  },
+  {
+    "nickname": "tiradepollo",
+    "password": "123",
+    "mensajesRecibidos": [],
+    "ingreso": false
+  },
+  {
+    "nickname": "chispita",
+    "password": "1234",
+    "mensajesRecibidos": [],
+    "ingreso": false
+  }
+]

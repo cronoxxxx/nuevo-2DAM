@@ -13,8 +13,6 @@ public class Ventana extends JFrame {
     private JButton borrar,agregar; //boton para borrar elementos de la lista
 
     public Ventana() {
-
-
         super("Ejemplo de JList");
         panelPrincipal = new JPanel(new BorderLayout());
         panBotones = new JPanel();

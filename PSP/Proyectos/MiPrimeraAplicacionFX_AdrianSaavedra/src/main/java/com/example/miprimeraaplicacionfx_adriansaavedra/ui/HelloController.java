@@ -1,125 +1,147 @@
-package com.example.miprimeraaplicacionfx_adriansaavedra.screens;
+package com.example.miprimeraaplicacionfx_adriansaavedra.ui;
 
-import com.example.miprimeraaplicacionfx_adriansaavedra.Constantes;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.Usuario;
-import com.example.miprimeraaplicacionfx_adriansaavedra.dao.Usuarios;
+
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
+import com.example.miprimeraaplicacionfx_adriansaavedra.common.Constantes;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionUsuarios;
+import com.example.miprimeraaplicacionfx_adriansaavedra.ui.model.FXMLCargador;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-@Getter@Setter
+
+
 public class HelloController implements Initializable {
-    public TextField tfNewUser;
-    public TextField tfPassword;
     @FXML
-    public TextField tfUser;
-    public Button btnRegister;
-    public Button btnIniciar;
-    public MenuItem firstView;
-    public MenuItem secondVIew;
-    public MenuItem thirdView;
-    public MenuBar MainManu;
-    public AnchorPane anchorPane;
+    private MenuItem firstView;
+
+    @FXML
+    private TextField tfNewUser;
+    @FXML
+    private TextField tfPassword;
+    @FXML@Getter
+    private TextField tfUser;
+    @FXML
+    private Button btnRegister;
+    @FXML
+    private Button btnIniciar;
+    @FXML
+    private MenuBar mainMenu;
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private TextField tfnewPassword;
-    private Usuarios usuarios;
+    private final GestionUsuarios gestionUsuarios;
 
     public HelloController() {
-        this.usuarios = new Usuarios();
+        this.gestionUsuarios = new GestionUsuarios();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-MainManu.setVisible(true);
-MainManu.setDisable(true);
+
+        mainMenu.setVisible(true);
+        mainMenu.setDisable(true);
     }
-
-
-
-
 
 
     public void registrarUser() {
 
         if (tfNewUser.getText().isEmpty() || tfnewPassword.getText().isEmpty()) {
-            //poner label confirmando que no se guardaron los usuarios
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(Constantes.CAMPO_VACIO);
+            alert.showAndWait();
         } else {
-            Usuario usuario = new Usuario(tfNewUser.getText(), tfnewPassword.getText());
-            usuarios.getUsuarioList().add(usuario);
-            if(usuarios.saveUsuarios(usuarios.getUsuarioList())) {
-                //poner label confirmando que se guardaron los usuarios
+            Usuario registro = new Usuario(tfNewUser.getText(), tfnewPassword.getText());
+            gestionUsuarios.obtenerUsuarios().add(registro);
+            if (gestionUsuarios.saveUsuarios(gestionUsuarios.obtenerUsuarios())) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Usuario registrado");
+                alert.setHeaderText(null);
+                alert.setContentText(Constantes.USUARIO_REGISTRADO_CORRECTAMENTE + tfNewUser.getText());
+                alert.showAndWait();
+
             } else {
-                //poner label confirmando que no se guardaron los usuarios
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error al registrar");
+                alert.setHeaderText(null);
+                alert.setContentText(Constantes.ERROR_REGISTRO_USUARIO);
+                alert.showAndWait();
             }
         }
 
     }
 
     public void comprobarUser() {
-        Optional<Usuario> existe = usuarios.getUsuarioList().stream()
+        Optional<Usuario> existe = gestionUsuarios.obtenerUsuarios().stream()
                 .filter(usuario -> tfUser.getText().equals(usuario.getNickname())
                         && tfPassword.getText().equals(usuario.getPassword()))
                 .findFirst();
 
-        Constantes.setUSERNAME(tfUser.getText());
 
-
-        if(existe.isPresent()) {
+        if (existe.isPresent()) {
             //activar meny
+            Usuario usuario = existe.get();
+            usuario.setIngreso(true);
+            gestionUsuarios.actualizarUsuario(usuario);
             tfUser.setEditable(false);
             tfPassword.setEditable(false);
             tfnewPassword.setEditable(false);
             tfNewUser.setEditable(false);
             btnRegister.setDisable(true);
             btnIniciar.setDisable(true);
-            MainManu.setVisible(true);
-            MainManu.setDisable(false);
+            mainMenu.setVisible(true);
+            mainMenu.setDisable(false);
         } else {
-            //poner label confirmando que el usuario no existe
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error al registrar");
+            alert.setHeaderText(null);
+            alert.setContentText(Constantes.USUARIO_NO_EXISTE);
+            alert.showAndWait();
         }
     }
 
     public void menuClick(ActionEvent actionEvent) {
-        MainManu.setVisible(true);
+        mainMenu.setVisible(true);
         Pane view;
+        FXMLCargador fxmlCargador = new FXMLCargador();
+
         switch (((MenuItem) actionEvent.getSource()).getId()) {
-            case "firstView":
-                FXMLLoader loader = new FXMLLoader();
-                view = loader.getView("Screen1.fxml");
-                if (view != null) {
-                    anchorPane.getChildren().setAll(view);
-
-                }
-                break;
-            case "secondVIew":
-                loader = new FXMLLoader();
-                view = loader.getView("Screen2.fxml");
-                if (view != null) {
-                    anchorPane.getChildren().setAll(view);
-
-                }
-                break;
-            case "thirdView":
-                loader = new FXMLLoader();
-                view = loader.getView("Screen3.fxml");
-                if (view != null) {
-                    anchorPane.getChildren().setAll(view);
-
-                }
-                break;
-            default:
-                break;
+            case "firstView" -> {
+                view = fxmlCargador.getView("Screen1.fxml");
+                borderPane.setCenter(view);
+                mainMenu.setVisible(true);
+            }
+            case "secondView" -> {
+                view = fxmlCargador.getView("Screen2.fxml");
+                borderPane.setCenter(view);
+                mainMenu.setVisible(true);
+                firstView.setDisable(true);
+            }
+            case "thirdView" -> {
+                view = fxmlCargador.getView("Screen3.fxml");
+                borderPane.setCenter(view);
+                mainMenu.setVisible(true);
+                firstView.setDisable(true);
+            }
+            default -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText(Constantes.ERROR_GENERAL);
+                alert.showAndWait();
+            }
         }
     }
-
 
 
 

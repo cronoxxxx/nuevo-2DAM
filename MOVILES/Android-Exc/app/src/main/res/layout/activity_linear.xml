@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".LinearActivity">
+<!--Invertir ancho y alto si la orientacion es vertical-->
+
+    <!--El weight sirve para ajustar el tamaño a la pantalla, puede tener valor de 1 (recomendado) y mas como 2-->
+    <!--se tiene que poner 0dp de width para que no de error-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+
+        android:layout_weight="1"
+        android:background="@color/purple">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/escribe_algo" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+
+        android:layout_weight="1"
+        android:background="@color/brown" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+
+        android:layout_weight="1"
+        android:background="@color/blue" />
+
+
+</LinearLayout>

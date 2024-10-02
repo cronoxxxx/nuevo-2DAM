@@ -1,55 +1,63 @@
 package com.example.miprimeraaplicacionfx_adriansaavedra.ui;
 
-import com.example.miprimeraaplicacionfx_adriansaavedra.Constantes;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.Mensaje;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.Usuario;
-import com.example.miprimeraaplicacionfx_adriansaavedra.dao.Usuarios;
-import javafx.event.ActionEvent;
+
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Mensaje;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionUsuarios;
+import com.example.miprimeraaplicacionfx_adriansaavedra.ui.model.SecondViewModel;
+import com.example.miprimeraaplicacionfx_adriansaavedra.common.Constantes;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+
+import lombok.Data;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+@Data
+public class PantallaSecondViewModel implements Initializable {
 
-public class TerceraPantallaMensajes implements Initializable {
-    public TableView<Mensaje> tvTablaMensajes;
-    public TableColumn<Mensaje, String> tcNombreUsuario;
-    public TableColumn<Mensaje, String> tcMensaje;
-    public TextArea taMensajeEnviado;
-    public TextField tfNombreEnviar;
-    public Button btnMandarMensaje;
-    public MenuItem firstView;
-    public MenuItem secondVIew;
-    public MenuItem thirdView;
-    public Menu MainManu;
-    public AnchorPane anchorPane;
-    private Usuarios usuarios;
+    @FXML
+    private Label content;
+    @FXML
+    private TableView<Mensaje> tvTablaMensajes;
+    @FXML
+    private TableColumn<Mensaje, String> tcNombreUsuario;
+    @FXML
+    private TableColumn<Mensaje, String> tcMensaje;
+    @FXML
+    private TextArea taMensajeEnviado;
+    @FXML
+    private TextField tfNombreEnviar;
+
+    private final GestionUsuarios usuarios;
     private SecondViewModel secondViewModel;
-    public TerceraPantallaMensajes() {
-        this.usuarios = new Usuarios();
+    private Usuario usuario;
+
+    public PantallaSecondViewModel() {
+        this.usuarios = new GestionUsuarios();
         secondViewModel = new SecondViewModel(null);
     }
 
 
 
-    public void comprobarUsuario(ActionEvent actionEvent) {
+    public void comprobarUsuario() {
         if(!tfNombreEnviar.getText().isEmpty() && !taMensajeEnviado.getText().isEmpty()) {
             Usuario recibidor = usuarios.getUsuario(tfNombreEnviar.getText());
 
             if (recibidor != null) {
-                Mensaje nuevoMensaje = new Mensaje(Constantes.getUSERNAME(), taMensajeEnviado.getText());
+                Mensaje nuevoMensaje = new Mensaje(usuario.getNickname(), taMensajeEnviado.getText());
                 recibidor.getMensajesRecibidos().add(nuevoMensaje);
-                usuarios.saveUsuarios(usuarios.getUsuarioList());
+                usuarios.saveUsuarios(usuarios.obtenerUsuarios());
                 tfNombreEnviar.clear();
                 taMensajeEnviado.clear();
             } else {
-                showAlert("User not found", "The specified user does not exist.");
+                showAlert(Constantes.TITULO_ERROR_USUARIO_NO_ENCONTRADO, Constantes.CONTENIDO_ERROR_USUARIO_NO_ENCONTRADO);
             }
         } else {
-            showAlert("Empty fields", "Please fill in both the username and message fields.");
+            showAlert(Constantes.TITULO_ERROR_CAMPO_VACIO, Constantes.CONTENIDO_ERROR_CAMPO_VACIO);
         }
     }
 
@@ -63,57 +71,32 @@ public class TerceraPantallaMensajes implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Usuario usuario = null;
-        MainManu.setVisible(true);
-        usuario = usuarios.getUsuarioList().stream()
-                .filter(u -> u.getNickname().equals(Constantes.getUSERNAME()))
-                .findFirst()
-                .orElse(null);
+        Optional<Usuario> optionalUsuario = usuarios.obtenerUsuarios().stream()
+                .filter(Usuario::isIngreso)
+                .findFirst();
 
         tcNombreUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
         tcMensaje.setCellValueFactory(new PropertyValueFactory<>("texto"));
 
-        if (usuario != null) {
+        if (optionalUsuario.isPresent()) {
+            usuario = optionalUsuario.get();
             secondViewModel = new SecondViewModel(usuario);
             tvTablaMensajes.setItems(secondViewModel.getMensajesObservableList());
-
-        }
-    }
-
-    public void menuClick(ActionEvent actionEvent) {
-        MainManu.setVisible(true);
-        Pane view;
-        switch (((MenuItem) actionEvent.getSource()).getId()) {
-            case "firstView":
-                FXMLLoader loader = new FXMLLoader();
-                view = loader.getView("Screen1.fxml");
-                if (view != null) {
-                    anchorPane.getChildren().setAll(view);
-
-                }
-                break;
-            case "secondVIew":
-                loader = new FXMLLoader();
-                view = loader.getView("Screen2.fxml");
-                if (view != null) {
-                    anchorPane.getChildren().setAll(view);
-
-                }
-                break;
-            case "thirdView":
-                loader = new FXMLLoader();
-                view = loader.getView("Screen3.fxml");
-                if (view != null) {
-                    anchorPane.getChildren().setAll(view);
-
-                }
-                break;
-            default:
-                break;
         }
 
+        tvTablaMensajes.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Actualizar el contenido del label con el mensaje seleccionado
+                content.setText(newSelection.getTexto());
+            } else {
+                // Si no hay selección, limpiar el label
+                content.setText("");
+            }
+        });
 
 
     }
+
+
 
 }

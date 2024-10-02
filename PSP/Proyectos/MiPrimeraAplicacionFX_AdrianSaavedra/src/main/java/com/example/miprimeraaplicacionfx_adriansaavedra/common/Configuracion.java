@@ -1,4 +1,4 @@
-package com.example.miprimeraaplicacionfx_adriansaavedra;
+package com.example.miprimeraaplicacionfx_adriansaavedra.common;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,10 +12,9 @@ public class Configuracion {
             properties.load(input);
             return (String)properties.get("pathJson");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace(System.out);
+            return null;//path no encontrado
         }
-        return null;//path no encontrado
+
     }
 
     public String loadPathPropertiesGroup(){
@@ -25,9 +24,8 @@ public class Configuracion {
             properties.load(input);
             return (String)properties.get("pathJsonGroup");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace(System.out);
+            return null;//path no encontrado
         }
-        return null;//path no encontrado
+
     }
 }
