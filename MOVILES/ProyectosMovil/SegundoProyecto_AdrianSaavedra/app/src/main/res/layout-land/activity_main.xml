@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/guideline"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="@dimen/default_guide" />
     <TextView
         android:id="@+id/tvForm"
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilNombre"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:hint="@string/nombre"
         app:endIconMode="clear_text"
@@ -54,7 +54,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
         style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/app_padding"
         android:hint="@string/email"
@@ -75,7 +75,7 @@
 
     <TextView
         android:id="@+id/tvEstatura"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/estatura"
@@ -89,7 +89,7 @@
     <com.google.android.material.slider.Slider
         android:id="@+id/slEstatura"
 
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:stepSize="1.0"
@@ -116,7 +116,7 @@
     <Button
         android:id="@+id/btnDatePicker"
         style="?android:spinnerStyle"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_padding"
         android:text="@string/first_date"
@@ -189,7 +189,7 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/cbTerms"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/screen_padding"
 
@@ -240,9 +240,11 @@
         app:layout_constraintTop_toTopOf="@+id/updateButton" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:backgroundTint="@color/primary"
         android:id="@+id/anteriorButton"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
+        app:iconTint="@color/white"
         android:layout_height="wrap_content"
         app:icon="@drawable/ic_anterior"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -252,7 +254,9 @@
         app:layout_constraintTop_toTopOf="@+id/updateButton" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:backgroundTint="@color/primary"
         android:id="@+id/siguienteButton"
+        app:iconTint="@color/white"
         style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

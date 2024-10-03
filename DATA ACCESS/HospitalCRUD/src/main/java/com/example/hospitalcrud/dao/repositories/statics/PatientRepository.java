@@ -23,13 +23,13 @@ public class PatientRepository implements PatientDAO {
         // El último ID
         this.lastId = patients.get(patients.size() - 1).getId();
     }
-    public int addPatient(Patient patient) {
+    public int save(Patient patient) {
         // Incrementamos el último ID y lo asignamos al nuevo paciente
 //        lastId++;
 //        patient.setId(lastId);
 //        patients.add(patient);
 //        return patient.getId();
-        System.out.println("Paciente anadido");
+
         return 0;
     }
 
@@ -37,13 +37,13 @@ public class PatientRepository implements PatientDAO {
         return patients;
     }
 
-    public void deletePatient(int patientId, boolean confirm) {
+    public void delete(int patientId, boolean confirm) {
         //patients.removeIf(patient -> patient.getId() == patientId);
-        System.out.println("Patient deleted: " + patientId);
+
     }
 
-    public void updatePatient(Patient patient) {
-        System.out.println("Paciente actualizado");
+    public void update(Patient patient) {
+
 //        for (Patient existingPatient : patients) {
 //            if (existingPatient.getId() == patient.getId()) {
 //                existingPatient.setName(patient.getName());

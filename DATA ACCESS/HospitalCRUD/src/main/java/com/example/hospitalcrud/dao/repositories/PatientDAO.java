@@ -7,7 +7,7 @@ import java.util.List;
 public interface PatientDAO {
 
     List<Patient> getAll();
-    int addPatient(Patient patient);
-    void deletePatient(int id, boolean confirm);
-    void updatePatient(Patient patient);
+    int save(Patient patient);
+    void delete(int id, boolean confirm);
+    void update(Patient patient);
 }

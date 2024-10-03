@@ -1,14 +1,13 @@
 package com.example.hospitalcrud.dao.repositories.statics;
 
 import com.example.hospitalcrud.dao.model.Doctor;
-import lombok.Getter;
-import lombok.Setter;
+import com.example.hospitalcrud.dao.repositories.DoctorDAO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-@Getter@Setter
-public class DoctorRepository {
+
+public class DoctorRepository implements DoctorDAO {
     private List<Doctor> doctors;
 
     public DoctorRepository() {
@@ -18,6 +17,9 @@ public class DoctorRepository {
                 new Doctor(2, "Doctor2"),
                 new Doctor(3, "Doctor3")
         );
+    }
+    public List<Doctor> getAll() {
+        return doctors;
     }
 
 }

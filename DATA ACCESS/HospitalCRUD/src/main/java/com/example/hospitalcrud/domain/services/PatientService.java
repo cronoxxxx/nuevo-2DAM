@@ -29,25 +29,25 @@ public class PatientService {
                     null, null, // Parámetros adicionales
                     patient.getBirthday()));
         }
-        System.out.println("Pacientes: " + patientUIs);
+
         return patientUIs;
     }
 
     public int addPatient(PatientUI patientUI) {
         // No necesitamos pasar el ID desde UI, ya que lo asignaremos en el repositorio
-        Patient patient = new Patient(0, patientUI.getName(), patientUI.getPhone(), patientUI.getBirthday());
-        return patientRepository.addPatient(patient);
+        Patient patient = new Patient(0, patientUI.getName(), patientUI.getPhone(), patientUI.getBirthDate());
+        return patientRepository.save(patient);
 
     }
 
 
     public void updatePatient(PatientUI patientUI) {
-        Patient patient = new Patient(patientUI.getId(), patientUI.getName(), patientUI.getPhone(), patientUI.getBirthday());
+        Patient patient = new Patient(patientUI.getId(), patientUI.getName(), patientUI.getPhone(), patientUI.getBirthDate());
 
-        patientRepository.updatePatient(patient);
+        patientRepository.update(patient);
     }
 
     public void delete(int patientId, boolean confirm) {
-            patientRepository.deletePatient(patientId,confirm);
+            patientRepository.delete(patientId,confirm);
     }
 }

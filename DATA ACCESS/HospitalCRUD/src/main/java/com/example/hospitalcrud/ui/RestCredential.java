@@ -1,6 +1,7 @@
 package com.example.hospitalcrud.ui;
 
 import com.example.hospitalcrud.dao.model.Credential;
+import com.example.hospitalcrud.domain.model.CredentialUI;
 import com.example.hospitalcrud.domain.services.CredentialService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class RestCredential {
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/login")
-    public boolean login(@RequestBody Credential userCredentials) {
+    public boolean login(@RequestBody CredentialUI userCredentials) {
 
         return credentialService.login(userCredentials);
     }

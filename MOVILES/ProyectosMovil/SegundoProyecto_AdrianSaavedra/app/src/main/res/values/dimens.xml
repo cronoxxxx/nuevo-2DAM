@@ -7,4 +7,6 @@
     <dimen name="weight_medium">1</dimen>
     <dimen name="common_label_text_size">10sp</dimen>
     <dimen name="margin_end">30dp</dimen>
+    <dimen name="great_me">60dp</dimen>
+    <item name="default_guide" type="dimen" format="float">0.5</item>
 </resources>

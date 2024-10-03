@@ -4,8 +4,8 @@ import com.example.misegundoproyecto_adriansaavedra.domain.modelo.Persona
 
 data class MainState (
     val persona : Persona = Persona(),
-val error : String? = null,
-val nosiguiente: Boolean? =true,
-val noanterior : Boolean? = true,
-val update_delete : Boolean? = true
+    val aviso : String? = null,
+    val siguiente: Boolean? =true,
+    val anterior : Boolean? = true,
+    val updatedelete : Boolean? = true
 )

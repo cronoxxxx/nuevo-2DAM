@@ -10,8 +10,8 @@
     <string name="fecha_nacimiento">Fecha de nacimiento\n</string>
     <string name="first_date">Seleccione la fecha</string>
     <string name="genero">Género\n</string>
-    <string name="hombre">Masculino</string>
-    <string name="mujer">Femenino</string>
+    <string name="hombre">MASCULINO</string>
+    <string name="mujer">FEMENINO\n</string>
     <string name="terms_and_conditions">He leido y acepto los términos y condiciones</string>
     <string name="submit_data">ENVIAR DATOS</string>
     <string name="update">Actualizar</string>

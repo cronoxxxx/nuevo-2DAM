@@ -9,9 +9,9 @@ public interface MedRecordDAO {
 
     public List<MedRecord> getAll();
 
-    public int addMedRecord(MedRecordUI medRecordUI);
+    public int add(MedRecordUI medRecordUI);
 
-    public void updateMedRecord(MedRecordUI medRecordUI);
+    public void update(MedRecordUI medRecordUI);
 
     public void deleteMedRecord(int id);
 }

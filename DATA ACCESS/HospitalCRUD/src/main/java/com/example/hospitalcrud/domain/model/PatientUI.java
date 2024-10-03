@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class PatientUI {
     private int id,paid;
     private String name,phone,userName,password;
-    private LocalDate birthday;
+    private LocalDate birthDate;
 
     public PatientUI(int id, int paid, String name, String phone, String userName, String password, LocalDate birthday) {
         this.id = id;
@@ -17,7 +17,7 @@ public class PatientUI {
         this.phone = phone;
         this.userName = userName;
         this.password = password;
-        this.birthday = birthday;
+        this.birthDate = birthday;
     }
 
 

@@ -75,7 +75,7 @@ public class MedRecordRepository implements MedRecordDAO {
         return medRecords;
     }
 
-    public int addMedRecord(MedRecordUI medRecordUI) {
+    public int add(MedRecordUI medRecordUI) {
 //        lastId++;
 //        MedRecord medRecord = MedRecord.builder()
 //                .id(lastId)
@@ -86,11 +86,10 @@ public class MedRecordRepository implements MedRecordDAO {
 //                .medications(convertToMedications(medRecordUI.getMedications(), lastId))
 //                .build();
 //        medRecords.add(medRecord);
-        System.out.println("Paciente anadido");
         return 0;
     }
 
-    public void updateMedRecord(MedRecordUI medRecordUI) {
+    public void update(MedRecordUI medRecordUI) {
 //        for (MedRecord medRecord : medRecords) {
 //            if (medRecord.getId() == medRecordUI.getId()) {
 //                medRecord.setIdPatient(medRecordUI.getIdPatient());
@@ -101,11 +100,12 @@ public class MedRecordRepository implements MedRecordDAO {
 //                break;
 //            }
 //        }
-        System.out.println("Paciente actualizado");
+
     }
 
     public void deleteMedRecord(int id) {
 //        medRecords.removeIf(medRecord -> medRecord.getId() == id);
+
     }
 
 //    private List<Medication> convertToMedications(List<String> medicationNames, int medRecordId) {
@@ -115,4 +115,5 @@ public class MedRecordRepository implements MedRecordDAO {
 //        }
 //        return medications;
 //    }
+
 }

@@ -15,7 +15,7 @@ public class MedRecordService {
     }
 
     public void update(MedRecordUI medRecordUI) {
-        medRecordRepository.updateMedRecord(medRecordUI);
+        medRecordRepository.update(medRecordUI);
     }
 
     public List<MedRecordUI> getAll(int idPatient) {
@@ -27,7 +27,7 @@ public class MedRecordService {
     }
 
     public int add(MedRecordUI medRecordUI) {
-        return medRecordRepository.addMedRecord(medRecordUI);
+        return medRecordRepository.add(medRecordUI);
     }
 
     public void delete(int id) {

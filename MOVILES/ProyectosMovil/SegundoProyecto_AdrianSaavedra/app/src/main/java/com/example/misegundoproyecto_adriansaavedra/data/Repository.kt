@@ -6,14 +6,22 @@ object Repository {
     private val personas = mutableListOf<Persona>()
 
     init {
-        val persona1 = Persona("Adrian", "Saavedra", 171, 18122022, "20/09/2024", "Masculino", true)
+        val persona1 = Persona("Adrian", "Saavedra", 171, "messi", "20/09/2024", "Masculino", true)
         val persona2 =
-            Persona("Juan", "Perez", (151..200).random(), 20122022, "12/01/2002", "Masculino", true)
+            Persona(
+                "Juan",
+                "Perez",
+                (151..200).random(),
+                "20122022",
+                "12/01/2002",
+                "Masculino",
+                true
+            )
         val persona3 = Persona(
             "Maria",
             "Garcia",
             (151..200).random(),
-            18122022,
+            "18122022",
             "20/09/2004",
             "Femenino",
             true
@@ -22,13 +30,21 @@ object Repository {
             "Pedro",
             "Lopez",
             (151..200).random(),
-            18122022,
+            "18122022",
             "12/06/2006",
             "Masculino",
             true
         )
         val persona5 =
-            Persona("Ana", "Sanchez", (151..200).random(), 18122022, "25/12/2008", "Femenino", true)
+            Persona(
+                "Ana",
+                "Sanchez",
+                (151..200).random(),
+                "18122022",
+                "25/12/2008",
+                "Femenino",
+                true
+            )
         personas.add(persona1)
         personas.add(persona2)
         personas.add(persona3)
@@ -44,26 +60,23 @@ object Repository {
         return personas
     }
 
-    fun getPersona(id:Int): Persona {
+    fun getPersona(id: Int): Persona {
         if (personas.isEmpty()) {
             return Persona()
         }
-        if (id >= 0 && id<=personas.size - 1 ) {
+        if (id >= 0 && id <= personas.size - 1) {
             return personas[id]
         }
         return Persona()
     }
 
     fun deletePersona(id: Int): Boolean {
-       return personas.remove(personas[id])
+        return personas.remove(personas[id])
     }
 
-    fun updatePersona (persona: Persona, newPersona:Persona){
+    fun updatePersona(persona: Persona, newPersona: Persona) {
         personas[personas.indexOf(persona)] = newPersona
     }
-
-
-
 
 
 }
