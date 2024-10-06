@@ -15,15 +15,13 @@
         android:orientation="vertical"
         android:id="@+id/guideline"
         app:layout_constraintGuide_percent="@dimen/default_guide" />
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvForm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/app_padding"
         android:text="@string/form"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
-        android:layout_marginEnd="@dimen/margin_end"
         app:layout_constraintBottom_toTopOf="@+id/tilNombre"
         app:layout_constraintEnd_toEndOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,13 +71,14 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvEstatura"
         android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/estatura"
         android:textStyle="bold"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@id/guideline"
         app:layout_constraintBottom_toTopOf="@id/slEstatura"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +100,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEstatura" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvFechaNacimiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,7 +112,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDatePicker"
         style="?android:spinnerStyle"
         android:layout_width="@dimen/null_dimension"
@@ -132,6 +131,7 @@
         android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
         android:hint="@string/clave"
+        android:layout_marginBottom="@dimen/app_padding"
         android:layout_marginStart="@dimen/screen_padding"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -148,12 +148,12 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvGender"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/app_padding"
         android:text="@string/genero"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@id/tglGenero"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline"
@@ -169,6 +169,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvGender"
         app:layout_constraintBottom_toTopOf="@id/cbTerms"
         app:singleSelection="true"
+        android:layout_marginStart="@dimen/screen_padding"
         >
 
         <Button

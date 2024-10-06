@@ -8,17 +8,16 @@
     android:padding="@dimen/screen_padding"
     tools:context=".ui.pantallaMain.MainActivity">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvForm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="@string/form"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tilNombre"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/anteriorButton"
+       app:layout_constraintEnd_toStartOf="@id/siguienteButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -63,7 +62,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvEstatura"
         android:layout_width="@dimen/null_dimension"
         android:layout_height="wrap_content"
@@ -122,7 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/slEstatura" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDatePicker"
         style="?android:spinnerStyle"
         android:layout_width="match_parent"
@@ -133,13 +132,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvFechaNacimiento" />
-
     <TextView
         android:id="@+id/tvGender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/genero"
-
         app:layout_constraintBottom_toTopOf="@id/tglGenero"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

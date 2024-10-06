@@ -13,6 +13,8 @@ module com.example.miprimeraaplicacionfx_adriansaavedra {
     opens com.example.miprimeraaplicacionfx_adriansaavedra.common to com.google.gson, javafx.fxml;
     exports com.example.miprimeraaplicacionfx_adriansaavedra.domain.model;
     opens com.example.miprimeraaplicacionfx_adriansaavedra.domain.model to com.google.gson, javafx.fxml;
-    exports com.example.miprimeraaplicacionfx_adriansaavedra.ui.model;
-    opens com.example.miprimeraaplicacionfx_adriansaavedra.ui.model to com.google.gson, javafx.fxml;
+    exports com.example.miprimeraaplicacionfx_adriansaavedra.dao.impl;
+    opens com.example.miprimeraaplicacionfx_adriansaavedra.dao.impl to com.google.gson, javafx.fxml;
+    exports com.example.miprimeraaplicacionfx_adriansaavedra.common.config;
+    opens com.example.miprimeraaplicacionfx_adriansaavedra.common.config to com.google.gson, javafx.fxml;
 }

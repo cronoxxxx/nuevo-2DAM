@@ -6,10 +6,15 @@ import java.util.List;
 
 public interface IGestionUsuarios {
     List<Usuario> obtenerUsuarios();
-    Usuario getUsuario(String nickname);
 
     boolean saveUsuarios(List<Usuario> usuarios);
-    List<Usuario> loadUsuarios();
 
     void actualizarUsuario(Usuario usuario);
+    Usuario verificacion(Usuario nickname);
+
+    boolean addUsuario(Usuario usuario);
+
+    Usuario buscarUsuarioPorNombre(String nombre);
+
+    List<Usuario> buscarUsuariosPorNombres(List<String> nombres);
 }
