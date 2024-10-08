@@ -4,7 +4,6 @@ import com.example.miprimeraaplicacionfx_adriansaavedra.dao.DaoGrupos;
 import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Grupo;
 import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -71,13 +70,13 @@ public class DaoGruposImpl implements DaoGrupos {
         obtenerGrupos().add(grupo);
         return saveGrupos(obtenerGrupos());
     }
-
-@Override
-    public List<String> obtenerParticipantesPublicos(Grupo grupo) {
-        return obtenerGrupos().stream()
-                .filter(g -> g.getNombre().equals(grupo.getNombre()) && g.isPublico())
-                .findFirst()
-                .map(g -> g.getParticipantes().stream().map(Usuario::getNombre).toList())
-                .orElse(Collections.emptyList());
+    @Override
+    public void agregarMiembroGrupo(Grupo grupo, Usuario miembro) {
+        boolean exists = grupo.getParticipantes().stream()
+                .anyMatch(p -> p.getNombre().equals(miembro.getNombre())
+                        && p.getPassword().equals(miembro.getPassword()));
+        if (!exists) {
+            grupo.getParticipantes().add(miembro);
+        }
     }
 }

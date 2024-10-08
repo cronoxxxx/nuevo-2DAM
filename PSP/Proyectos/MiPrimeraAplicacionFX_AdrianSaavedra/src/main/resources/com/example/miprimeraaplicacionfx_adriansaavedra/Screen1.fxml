@@ -97,7 +97,7 @@
    <ListView fx:id="lvGruposSecretos" layoutX="641.0" layoutY="59.0" prefHeight="54.0" prefWidth="210.0" />
    <Label layoutX="645.0" layoutY="32.0" text="Tus grupos secretos" />
    <Label layoutX="651.0" layoutY="126.0" text="Agregar usuario a grupo secreto" />
-   <Button fx:id="btnAgregarUsuarioGrupo" layoutX="651.0" layoutY="191.0" mnemonicParsing="false" onAction="#agregarUsuarioGrupo" text="Agregar" />
+   <Button fx:id="btnAgregarUsuarioGrupo" layoutX="651.0" layoutY="191.0" mnemonicParsing="false" onAction="#agregarUsuarioAGrupo" text="Agregar" />
    <TextField fx:id="tfAgregarUsuarioGrupo" layoutX="645.0" layoutY="157.0" />
    <ListView fx:id="lvGruposDeUsuario" layoutX="35.0" layoutY="531.0" prefHeight="54.0" prefWidth="210.0" />
    <Label layoutX="39.0" layoutY="504.0" text="Grupos a los que perteneces" />

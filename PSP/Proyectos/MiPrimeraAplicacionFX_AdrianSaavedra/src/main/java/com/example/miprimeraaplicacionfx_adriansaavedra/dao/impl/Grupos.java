@@ -2,8 +2,6 @@ package com.example.miprimeraaplicacionfx_adriansaavedra.dao.impl;
 
 import com.example.miprimeraaplicacionfx_adriansaavedra.common.config.Configuracion;
 import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Grupo;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Mensaje;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
@@ -15,7 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Getter

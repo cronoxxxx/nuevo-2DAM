@@ -1,6 +1,5 @@
 package com.example.miprimeraaplicacionfx_adriansaavedra.ui;
 
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionUsuarios;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

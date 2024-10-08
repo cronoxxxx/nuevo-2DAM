@@ -2,13 +2,9 @@ package com.example.miprimeraaplicacionfx_adriansaavedra.common;
 
 public class Constantes {
 
-    public static final String TITULO_ERROR_USUARIO_NO_ENCONTRADO = "Error usuario no encontrado";
-    public static final String CONTENIDO_ERROR_USUARIO_NO_ENCONTRADO = "El usuario introducido no existe";
+
     public static final String TITULO_ERROR_CAMPO_VACIO = "Error campo vacio";
     public static final String CONTENIDO_ERROR_CAMPO_VACIO = "El campo introducido no puede estar vacio";
-    public static final String USUARIO_NO_EXISTE = "El usuario introducido no existe";
-    public static final String CAMPO_VACIO = "El campo introducido no puede estar vacio";
-
 
     public static final String TITULO_ERROR_GRUPO_NO_ENCONTRADO = "Error grupo no encontrado";
     public static final String CONTENIDO_ERROR_GRUPO_NO_ENCONTRADO = "El grupo introducido no existe";
@@ -33,10 +29,8 @@ public class Constantes {
     public static final String CONTENIDO_USUARIO_NO_ENCONTRADO = "El usuario introducido no existe";
     public static final String TITULO_PERMISO_DENEGADO = "Permiso denegado";
     public static final String CONTENIDO_PERMISO_DENEGADO = "Solo el administrador del grupo puede agregar nuevos miembros";
-    public static final String TITULO_DATOS_INVALIDOS = "Datos inválidos";
-    public static final String CONTENIDO_DATOS_INVALIDOS = "Por favor, asegúrese de que todos los campos estén completos .";
-    public static final String USUARIO_REGISTRADO_CORRECTAMENTE =  "El usuario ha sido registrado correctamente";
-    public static final String ERROR_REGISTRO_USUARIO =  "No se ha podido registrar el usuario";
     public static final String TITULO_ERROR_LOGIN =  "Error login";
     public static final String CONTENIDO_ERROR_LOGIN =  "El usuario o la contraseña son incorrectos";
+    public static final String TITULO_EXITO_INICIO_SESION = "Exito inicio sesion";
+    public static final String CONTENIDO_EXITO_INICIO_SESION = "El usuario ha iniciado sesión";
 }

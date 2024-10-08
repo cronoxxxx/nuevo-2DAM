@@ -1,6 +1,7 @@
 package com.example.miprimeraaplicacionfx_adriansaavedra.domain.service;
 
 import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Grupo;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
 
 
 import java.util.List;
@@ -21,6 +22,5 @@ public interface IGestionGrupos {
     Grupo ingresar(Grupo grupo);
 
     boolean addGroup(Grupo grupo);
-
-    List<String> obtenerParticipantesPublicos(Grupo grupo);
+    void agregarMiembroGrupo(Grupo grupo, Usuario miembro);
 }

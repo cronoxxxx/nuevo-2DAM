@@ -1,23 +1,17 @@
 package com.example.miprimeraaplicacionfx_adriansaavedra.ui;
 
 
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Grupo;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Mensaje;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.*;
 import com.example.miprimeraaplicacionfx_adriansaavedra.common.Constantes;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionGrupos;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionMensajes;
-import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.GestionUsuarios;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.service.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import lombok.Getter;
 
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class BuzonController implements Initializable {
@@ -55,7 +49,6 @@ public class BuzonController implements Initializable {
     @FXML
     private TextField tfPasswordUser;
     @FXML
-    @Getter
     private TextField tfUser;
     @FXML
     private Button btnRegisterUser;
@@ -78,12 +71,9 @@ public class BuzonController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        lvMensajesRecibidosUser.setItems(FXCollections.observableArrayList());
+        Arrays.asList(lvMensajesRecibidosUser, lvGruposSecretos, lvMensajesGrupo, lvGruposDeUsuario)
+                .forEach(lv -> lv.setItems(FXCollections.observableArrayList()));
         lvGrupoParticipantes.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        lvGruposSecretos.setItems(FXCollections.observableArrayList());
-        lvMensajesGrupo.setItems(FXCollections.observableArrayList());
-        lvGruposDeUsuario.setItems(FXCollections.observableArrayList());
-
         setupGroupListeners();
 
     }
@@ -123,18 +113,10 @@ public class BuzonController implements Initializable {
             Usuario registro = new Usuario(tfNewUser.getText(), tfnewPasswordUser.getText());
             gestionUsuarios.addUsuario(registro);
             if (gestionUsuarios.saveUsuarios(gestionUsuarios.obtenerUsuarios())) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Usuario registrado");
-                alert.setHeaderText(null);
-                alert.setContentText(Constantes.USUARIO_REGISTRADO_CORRECTAMENTE + tfNewUser.getText());
-                alert.showAndWait();
+                mostrarAlerta(Alert.AlertType.CONFIRMATION, Constantes.TITULO_USUARIO_REGISTRADO, Constantes.CONTENIDO_USUARIO_REGISTRADO_CORRECTAMENTE + tfNewUser.getText());
 
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error al registrar");
-                alert.setHeaderText(null);
-                alert.setContentText(Constantes.ERROR_REGISTRO_USUARIO);
-                alert.showAndWait();
+                mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_REGISTRO_USUARIO, Constantes.CONTENIDO_ERROR_REGISTRO_USUARIO);
             }
         }
 
@@ -166,7 +148,7 @@ public class BuzonController implements Initializable {
                 btnRegisterUser.setDisable(true);
                 btnIniciarUser.setDisable(true);
 
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Inicio de sesión exitoso", "Bienvenido, " + usuario.getNombre());
+                mostrarAlerta(Alert.AlertType.INFORMATION, Constantes.TITULO_EXITO_INICIO_SESION, Constantes.CONTENIDO_EXITO_INICIO_SESION + usuario.getNombre());
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_LOGIN, Constantes.CONTENIDO_ERROR_LOGIN);
             }
@@ -178,50 +160,122 @@ public class BuzonController implements Initializable {
     }
 
     public void accederGrupoPublico() {
-        try {
-            if (tfGroup.getText() == null || tfGroup.getText().isEmpty() ||
-                    tfPasswordGroup.getText() == null || tfPasswordGroup.getText().isEmpty()) {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", "El nombre del grupo y la contraseña no pueden estar vacíos.");
-                return;
+        if (tfGroup.getText() == null || tfGroup.getText().isEmpty() ||
+                tfPasswordGroup.getText() == null || tfPasswordGroup.getText().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_CAMPO_VACIO, Constantes.CONTENIDO_ERROR_CAMPO_VACIO);
+            return;
+        }
+        Grupo x = new Grupo(tfGroup.getText(), tfPasswordGroup.getText(), usuario, true);
+
+        Grupo comprobar = gestionGrupos.ingresar(x);
+        if (comprobar != null) {
+            grupoActual = comprobar;
+
+            tfGroup.setEditable(false);
+            tfPasswordGroup.setEditable(false);
+            btnRegisterSecretGroup.setDisable(true);
+            btnRegisterPublicGroup.setDisable(true);
+            btnIniciarGroup.setDisable(true);
+
+            if (usuario != null) {
+                gestionGrupos.agregarMiembroGrupo(comprobar, usuario);
             }
-            Grupo x = new Grupo(tfGroup.getText(), tfPasswordGroup.getText(), usuario, true);
 
-            Grupo comprobar = gestionGrupos.ingresar(x);
+            actualizarListaParticipantes(comprobar);
+            actualizarListaGrupos(comprobar);
+            actualizarListaMensajes(comprobar);
 
-
-            if (comprobar != null) {
-                grupoActual = comprobar;
-
-                tfGroup.setEditable(false);
-                tfPasswordGroup.setEditable(false);
-                btnRegisterSecretGroup.setDisable(true);
-                btnRegisterPublicGroup.setDisable(true);
-                btnIniciarGroup.setDisable(true);
-
-                if (usuario != null) {
-                    comprobar.agregarMiembro(usuario);
-                }
-
-                actualizarListaParticipantes(comprobar);
-                actualizarListaGrupos(comprobar);
-                actualizarListaMensajes(comprobar);
-
-                gestionGrupos.actualizarGrupo(comprobar);
-                actualizarVistaGrupo();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_GRUPO_NO_ENCONTRADO, Constantes.CONTENIDO_ERROR_GRUPO_NO_ENCONTRADO);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error al acceder al grupo: " + e.getMessage());
+            gestionGrupos.actualizarGrupo(comprobar);
+            actualizarVistaGrupo();
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_GRUPO_NO_ENCONTRADO, Constantes.CONTENIDO_ERROR_GRUPO_NO_ENCONTRADO);
         }
     }
+
+    public void registrarPublicGroup() {
+        if (tfNewGroup.getText().isEmpty() || tfnewPasswordGroup.getText().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_GRUPO_NO_ENCONTRADO, Constantes.CONTENIDO_ERROR_GRUPO_NO_ENCONTRADO);
+        } else {
+            Grupo grupo = new Grupo(tfNewGroup.getText(), tfnewPasswordGroup.getText(), usuario, true);
+            gestionGrupos.addGroup(grupo);
+            if (gestionGrupos.saveGrupos(gestionGrupos.obtenerGrupos())) {
+                mostrarAlerta(Alert.AlertType.CONFIRMATION, Constantes.TITULO_EXITO_GRUPO_REGISTRADO, Constantes.CONTENIDO_EXITO_GRUPO_REGISTRADO);
+                lvGruposDeUsuario.getItems().add(grupo.getNombre());
+            }
+        }
+
+
+    }
+
+    public void registrarSecretGroup() {
+        if (tfNewGroup.getText().isEmpty() || tfnewPasswordGroup.getText().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_GRUPO_NO_ENCONTRADO, Constantes.CONTENIDO_ERROR_GRUPO_NO_ENCONTRADO);
+        } else {
+            Grupo grupo = new Grupo(tfNewGroup.getText(), tfnewPasswordGroup.getText(), usuario, false);
+            if (gestionGrupos.addGroup(grupo)) {
+                mostrarAlerta(Alert.AlertType.CONFIRMATION, Constantes.TITULO_EXITO_GRUPO_REGISTRADO, Constantes.CONTENIDO_EXITO_GRUPO_REGISTRADO);
+                lvGruposSecretos.getItems().add(grupo.getNombre());
+            }
+
+
+        }
+    }
+
+    public void enviarMensajeGrupos() {
+        if (grupoActual != null && !taContenidoEnviar.getText().isEmpty()) {
+            Mensaje mensaje = new Mensaje(taContenidoEnviar.getText(), LocalDateTime.now(), usuario, Collections.emptyList(), grupoActual.getNombre());
+            if (gestionMensajes.addMensajes(mensaje)) {
+                lvMensajesGrupo.getItems().add(mensaje);
+                lvMensajesGrupo.scrollTo(lvMensajesGrupo.getItems().size() - 1);
+                taContenidoEnviar.clear(); // Clear the text field after sending
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_ENVIO_MENSAJE, Constantes.CONTENIDO_ERROR_ENVIO_MENSAJE);
+            }
+        }
+    }
+
+    public void agregarUsuarioAGrupo() {
+        if (sonDatosValidos()) {
+            if (esAdministradorDelGrupo()) {
+                Usuario nuevoMiembro = gestionUsuarios.buscarUsuarioPorNombre(tfAgregarUsuarioGrupo.getText());
+                if (nuevoMiembro != null) {
+                    agregarMiembroSiNoExiste(nuevoMiembro);
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_USUARIO_NO_ENCONTRADO, Constantes.CONTENIDO_USUARIO_NO_ENCONTRADO);
+                }
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_PERMISO_DENEGADO, Constantes.CONTENIDO_PERMISO_DENEGADO);
+            }
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_CAMPO_VACIO, Constantes.CONTENIDO_ERROR_CAMPO_VACIO);
+        }
+    }
+
+    public void enviarMensajePersonas() {
+        List<String> destinatarios = new ArrayList<>(lvGrupoParticipantes.getSelectionModel().getSelectedItems());
+
+        if (!taContenidoEnviar.getText().isEmpty() && !destinatarios.isEmpty()) {
+            List<Usuario> existentes = gestionUsuarios.buscarUsuariosPorNombres(destinatarios);
+
+            if (!existentes.isEmpty()) {
+                Mensaje mensaje = new Mensaje(taContenidoEnviar.getText(), LocalDateTime.now(), usuario, existentes, null);
+                gestionMensajes.addMensajes(mensaje);
+
+                if (gestionMensajes.saveMensajes(gestionMensajes.obtenerMensajes())) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, Constantes.TITULO_EXITO_ENVIO_MENSAJE, Constantes.CONTENIDO_EXITO_ENVIO_MENSAJE);
+                    taContenidoEnviar.clear(); // Limpiar el campo de texto después de enviar
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_ENVIO_MENSAJE, Constantes.CONTENIDO_ERROR_ENVIO_MENSAJE);
+                }
+            }
+        }
+    }
+
 
     private void actualizarListaParticipantes(Grupo grupo) {
         lvGrupoParticipantes.getItems().clear();
         if (grupo.getParticipantes() != null) {
             grupo.getParticipantes().stream()
-                    .filter(Objects::nonNull)
                     .map(Usuario::getNombre)
                     .filter(Objects::nonNull)
                     .forEach(lvGrupoParticipantes.getItems()::add);
@@ -271,79 +325,27 @@ public class BuzonController implements Initializable {
         lvMensajesGrupo.getItems().addAll(mensajesGrupo);
     }
 
-    public void registrarPublicGroup() {
-        if (tfNewGroup.getText().isEmpty() || tfnewPasswordGroup.getText().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_GRUPO_NO_ENCONTRADO, Constantes.CONTENIDO_ERROR_GRUPO_NO_ENCONTRADO);
+
+    private boolean sonDatosValidos() {
+        return !tfAgregarUsuarioGrupo.getText().isEmpty() && grupoActual != null && !grupoActual.isPublico();
+    }
+
+    private boolean esAdministradorDelGrupo() {
+        return grupoActual.getAdministrador().getNombre().equals(usuario.getNombre())
+                && grupoActual.getAdministrador().getPassword().equals(usuario.getPassword());
+    }
+
+    private void agregarMiembroSiNoExiste(Usuario nuevoMiembro) {
+        if (!grupoActual.getParticipantes().contains(nuevoMiembro)) {
+            gestionGrupos.agregarMiembroGrupo(grupoActual, nuevoMiembro);
+            gestionGrupos.actualizarGrupo(grupoActual);
+            actualizarListaParticipantes();
+            tfAgregarUsuarioGrupo.clear();
+            mostrarAlerta(Alert.AlertType.INFORMATION, Constantes.TITULO_USUARIO_AGREGADO, Constantes.CONTENIDO_USUARIO_AGREGADO);
         } else {
-            Grupo grupo = new Grupo(tfNewGroup.getText(), tfnewPasswordGroup.getText(), usuario, true);
-            gestionGrupos.addGroup(grupo);
-            if (gestionGrupos.saveGrupos(gestionGrupos.obtenerGrupos())) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, Constantes.TITULO_EXITO_GRUPO_REGISTRADO, Constantes.CONTENIDO_EXITO_GRUPO_REGISTRADO);
-                lvGruposDeUsuario.getItems().add(grupo.getNombre());
-            }
-        }
-
-
-    }
-
-    public void registrarSecretGroup() {
-        if (tfNewGroup.getText().isEmpty() || tfnewPasswordGroup.getText().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_GRUPO_NO_ENCONTRADO, Constantes.CONTENIDO_ERROR_GRUPO_NO_ENCONTRADO);
-        } else {
-            Grupo grupo = new Grupo(tfNewGroup.getText(), tfnewPasswordGroup.getText(), usuario, false);
-            gestionGrupos.addGroup(grupo);
-            if (gestionGrupos.saveGrupos(gestionGrupos.obtenerGrupos())) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, Constantes.TITULO_EXITO_GRUPO_REGISTRADO, Constantes.CONTENIDO_EXITO_GRUPO_REGISTRADO);
-                lvGruposSecretos.getItems().add(grupo.getNombre());
-
-            }
-        }
-
-
-    }
-
-    public void enviarMensajeGrupos() {
-        if (grupoActual != null && !taContenidoEnviar.getText().isEmpty()) {
-            Mensaje mensaje = new Mensaje(taContenidoEnviar.getText(), LocalDateTime.now(), usuario, Collections.emptyList(), grupoActual.getNombre());
-            gestionMensajes.addMensajes(mensaje);
-            if (gestionMensajes.saveMensajes(gestionMensajes.obtenerMensajes())) {
-                // Add only the new message to the ListView
-                lvMensajesGrupo.getItems().add(mensaje);
-                // Scroll to the bottom of the ListView to show the latest message
-                lvMensajesGrupo.scrollTo(lvMensajesGrupo.getItems().size() - 1);
-                taContenidoEnviar.clear(); // Clear the text field after sending
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_ENVIO_MENSAJE, Constantes.CONTENIDO_ERROR_ENVIO_MENSAJE);
-            }
+            mostrarAlerta(Alert.AlertType.INFORMATION, Constantes.TITULO_USUARIO_YA_EXISTE, Constantes.CONTENIDO_USUARIO_YA_EXISTE);
         }
     }
-
-    public void agregarUsuarioGrupo() {
-        if (!tfAgregarUsuarioGrupo.getText().isEmpty() && grupoActual != null && !grupoActual.isPublico()) {
-            // Comprobar si el usuario actual es el administrador del grupo
-            if (grupoActual.getAdministrador().getNombre().equals(usuario.getNombre()) && grupoActual.getAdministrador().getPassword().equals(usuario.getPassword())) {
-                Usuario nuevoMiembro = gestionUsuarios.buscarUsuarioPorNombre(tfAgregarUsuarioGrupo.getText());
-                if (nuevoMiembro != null) {
-                    if (!grupoActual.getParticipantes().contains(nuevoMiembro)) {
-                        grupoActual.agregarMiembro(nuevoMiembro);
-                        gestionGrupos.actualizarGrupo(grupoActual);
-                        actualizarListaParticipantes();
-                        tfAgregarUsuarioGrupo.clear();
-                        mostrarAlerta(Alert.AlertType.INFORMATION, "Usuario agregado", "El usuario ha sido agregado al grupo exitosamente.");
-                    } else {
-                        mostrarAlerta(Alert.AlertType.INFORMATION, "Usuario ya existe", "El usuario ya es miembro de este grupo.");
-                    }
-                } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "Usuario no encontrado", "No se encontró el usuario especificado.");
-                }
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Permiso denegado", "Solo el administrador del grupo puede agregar nuevos miembros.");
-            }
-        } else {
-            mostrarAlerta(Alert.AlertType.ERROR, "Datos inválidos", "Por favor, asegúrese de que todos los campos estén completos y que el grupo sea válido.");
-        }
-    }
-
 
 
     private void actualizarListaParticipantes() {
@@ -352,7 +354,6 @@ public class BuzonController implements Initializable {
             List<String> participantes = grupoActual.getParticipantes().stream()
                     .filter(Objects::nonNull)
                     .map(Usuario::getNombre)
-                    .filter(Objects::nonNull)
                     .toList();
             lvGrupoParticipantes.getItems().addAll(participantes);
         }
@@ -366,25 +367,6 @@ public class BuzonController implements Initializable {
         lvGrupoParticipantes.refresh();
     }
 
-    public void enviarMensajePersonas() {
-        List<String> destinatarios = new ArrayList<>(lvGrupoParticipantes.getSelectionModel().getSelectedItems());
-
-        if (!taContenidoEnviar.getText().isEmpty() && !destinatarios.isEmpty()) {
-            List<Usuario> existentes = gestionUsuarios.buscarUsuariosPorNombres(destinatarios);
-
-            if (!existentes.isEmpty()) {
-                Mensaje mensaje = new Mensaje(taContenidoEnviar.getText(), LocalDateTime.now(), usuario, existentes, null);
-                gestionMensajes.addMensajes(mensaje);
-
-                if (gestionMensajes.saveMensajes(gestionMensajes.obtenerMensajes())) {
-                    mostrarAlerta(Alert.AlertType.CONFIRMATION, Constantes.TITULO_EXITO_ENVIO_MENSAJE, Constantes.CONTENIDO_EXITO_ENVIO_MENSAJE);
-                    taContenidoEnviar.clear(); // Limpiar el campo de texto después de enviar
-                } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, Constantes.TITULO_ERROR_ENVIO_MENSAJE, Constantes.CONTENIDO_ERROR_ENVIO_MENSAJE);
-                }
-            }
-        }
-    }
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
         Alert alert = new Alert(tipo);

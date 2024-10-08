@@ -1,6 +1,7 @@
 package com.example.miprimeraaplicacionfx_adriansaavedra.dao;
 
 import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Grupo;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public interface DaoGrupos {
 
     boolean addGroup(Grupo grupo);
 
-    List<String> obtenerParticipantesPublicos(Grupo grupo);
+    void agregarMiembroGrupo(Grupo grupo, Usuario miembro);
 }

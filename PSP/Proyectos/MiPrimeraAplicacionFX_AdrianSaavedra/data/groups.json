@@ -95,7 +95,12 @@
     "fechaCreacion": "2024-10-04T10:30:24.404016"
   },
   {
-    "participantes": [],
+    "participantes": [
+      {
+        "nombre": "toreto",
+        "password": "toreto"
+      }
+    ],
     "nombre": "grupoE",
     "password": "passworde",
     "administrador": {
@@ -122,6 +127,10 @@
       {
         "nombre": "user12",
         "password": "1111"
+      },
+      {
+        "nombre": "user17",
+        "password": "3333"
       }
     ],
     "nombre": "pros",
@@ -138,6 +147,10 @@
       {
         "nombre": "usuario5",
         "password": "password5"
+      },
+      {
+        "nombre": "toreto",
+        "password": "toreto"
       }
     ],
     "nombre": "hola",
@@ -150,7 +163,12 @@
     "fechaCreacion": "2024-10-06T15:29:38.120995800"
   },
   {
-    "participantes": [],
+    "participantes": [
+      {
+        "nombre": "user17",
+        "password": "3333"
+      }
+    ],
     "nombre": "holasecreto",
     "password": "holasecreto",
     "administrador": {
@@ -211,6 +229,10 @@
       {
         "nombre": "user13",
         "password": "2222"
+      },
+      {
+        "nombre": "user14",
+        "password": "2222"
       }
     ],
     "nombre": "otrosecreto",
@@ -221,5 +243,21 @@
     },
     "publico": false,
     "fechaCreacion": "2024-10-07T00:20:30.577105600"
+  },
+  {
+    "participantes": [
+      {
+        "nombre": "toreto",
+        "password": "toreto"
+      }
+    ],
+    "nombre": "vela",
+    "password": "vela",
+    "administrador": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "publico": false,
+    "fechaCreacion": "2024-10-07T18:29:14.167839600"
   }
 ]

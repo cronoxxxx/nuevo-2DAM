@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class DaoMensajesImpl implements DaoMensajes {
-    private Mensajes mensajeria;
+    private final Mensajes mensajeria;
 
     public DaoMensajesImpl() {
         this.mensajeria = new Mensajes();

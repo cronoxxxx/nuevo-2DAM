@@ -2,14 +2,18 @@ package com.example.miprimeraaplicacionfx_adriansaavedra.domain.service;
 
 import com.example.miprimeraaplicacionfx_adriansaavedra.dao.impl.DaoGruposImpl;
 import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Grupo;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.model.Usuario;
+import com.example.miprimeraaplicacionfx_adriansaavedra.domain.validators.GrupoValidator;
 
 import java.util.List;
 
 public class GestionGrupos implements IGestionGrupos {
     private final DaoGruposImpl daoGrupos;
+    private final GrupoValidator grupoValidator;
 
     public GestionGrupos() {
         this.daoGrupos = new DaoGruposImpl();
+        this.grupoValidator = new GrupoValidator();
     }
 
 
@@ -38,15 +42,27 @@ public class GestionGrupos implements IGestionGrupos {
     }
     @Override
     public Grupo ingresar(Grupo grupo){
-        return daoGrupos.ingresar(grupo);
+        if (grupoValidator.validateGrupo(grupo)) {
+            return daoGrupos.ingresar(grupo);
+        } else {
+            return null;
+        }
     }
     @Override
     public boolean addGroup(Grupo grupo){
-        return daoGrupos.addGroup(grupo);
+        if (grupoValidator.validateGrupo(grupo)) {
+            return daoGrupos.addGroup(grupo);
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public List<String> obtenerParticipantesPublicos(Grupo grupo) {
-        return daoGrupos.obtenerParticipantesPublicos(grupo);
+    public void agregarMiembroGrupo(Grupo grupo, Usuario miembro) {
+        if (grupoValidator.validateGrupo(grupo)) {
+            daoGrupos.agregarMiembroGrupo(grupo, miembro);
+        }
+
     }
+
 }
