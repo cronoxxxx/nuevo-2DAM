@@ -1,7 +1,7 @@
 package com.example.hospitalcrud.domain.services;
 
 import com.example.hospitalcrud.dao.model.Patient;
-import com.example.hospitalcrud.dao.repositories.statics.PatientRepository;
+import com.example.hospitalcrud.dao.repositories.PatientRepository;
 import com.example.hospitalcrud.domain.model.PatientUI;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +12,9 @@ import java.util.List;
 public class PatientService {
     private PatientRepository patientRepository;
 
-    public PatientService() {
-        this.patientRepository = new PatientRepository();
+    public PatientService(PatientRepository patientRepository) {
+        this.patientRepository = patientRepository;
+
     }
 
     public List<PatientUI> getPatients() {

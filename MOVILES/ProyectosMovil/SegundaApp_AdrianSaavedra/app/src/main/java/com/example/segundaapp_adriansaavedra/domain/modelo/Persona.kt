@@ -11,17 +11,4 @@ data class Persona(
     val fechaNacimiento : String = "",
     val genero : String = "",
     val aceptarTerminos : Boolean = false
-
-) {
-    override fun toString(): String {
-        return """
-            Nombre: $nombre
-            Email: $email
-            Estatura: $estatura
-            Clave: $clave
-            FechaNacimiento: $fechaNacimiento
-            Genero: $genero
-            AceptarTerminos: $aceptarTerminos
-        """.trimIndent()
-    }
-}
+)

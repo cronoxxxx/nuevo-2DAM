@@ -1,16 +1,13 @@
 package com.example.hospitalcrud.dao.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Data@Getter@Setter
+@Data
+@AllArgsConstructor
 public class Doctor {
     private int id;
     private String name;
+    private String profesion;
 
-    public Doctor(int i, String doctor2) {
-        this.id = i;
-        this.name = doctor2;
-    }
 }

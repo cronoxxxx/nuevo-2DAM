@@ -16,8 +16,6 @@ public class DaoGruposImpl implements DaoGrupos {
 
         this.grupos = grupos;
     }
-
-
     @Override
     public boolean actualizarGrupo(Grupo grupo) {
         List<Grupo> grupoList = obtenerGrupos();
@@ -67,16 +65,7 @@ public class DaoGruposImpl implements DaoGrupos {
                 .findFirst()
                 .orElse(null);
     }
-    @Override
-    public boolean addGroup(Grupo grupo) {
-        List<Grupo> grupoList = obtenerGrupos();
-        // Verificar si ya existe un grupo con el mismo nombre
-        if (grupoList.stream().anyMatch(g -> g.getNombre().equals(grupo.getNombre()))) {
-            return false; // El grupo ya existe, no lo añadimos
-        }
-        grupoList.add(grupo);
-        return saveGrupos(grupoList);
-    }
+
     @Override
     public boolean agregarMiembroGrupo(Grupo grupo, Usuario miembro) {
         boolean exists = grupo.getParticipantes().stream()

@@ -2,7 +2,8 @@ package com.example.hospitalcrud.domain.services;
 
 import com.example.hospitalcrud.dao.model.MedRecord;
 import com.example.hospitalcrud.dao.model.Medication;
-import com.example.hospitalcrud.dao.repositories.statics.MedRecordRepository;
+import com.example.hospitalcrud.dao.repositories.MedRecordRepository;
+import com.example.hospitalcrud.dao.repositories.statics.StaticMedRecordRepository;
 import com.example.hospitalcrud.domain.model.MedRecordUI;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.List;
 public class MedRecordService {
     private final MedRecordRepository medRecordRepository;
 
-    public MedRecordService() {
-        this.medRecordRepository = new MedRecordRepository();
+    public MedRecordService(MedRecordRepository medRecordRepository) {
+        this.medRecordRepository = medRecordRepository;
     }
 
     public void update(MedRecordUI medRecordUI) {

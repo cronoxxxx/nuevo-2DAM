@@ -15,8 +15,6 @@ public class DaoUsuariosImpl implements DaoUsuarios {
     public List<Usuario> obtenerUsuarios() {
         return this.usuarios.loadUsuarios();
     }
-
-
     @Override
     public Usuario verificacion(Usuario nickname) {
         saveUsuarios(obtenerUsuarios());
@@ -27,17 +25,9 @@ public class DaoUsuariosImpl implements DaoUsuarios {
                 .orElse(null
         );
     }
-
     @Override
     public boolean saveUsuarios(List<Usuario> usuarios) {
         return this.usuarios.saveUsuarios(usuarios);
-    }
-
-
-    @Override
-    public boolean addUsuario(Usuario usuario) {
-        obtenerUsuarios().add(usuario);
-        return saveUsuarios(obtenerUsuarios());
     }
 
     @Override

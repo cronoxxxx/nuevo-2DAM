@@ -1,0 +1,60 @@
+package com.example.hospitalcrud.dao.repositories.statics;
+
+import com.example.hospitalcrud.dao.model.Patient;
+import com.example.hospitalcrud.dao.repositories.PatientRepository;
+import lombok.Data;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+@Data
+@Profile("inDevelopment")
+@Repository
+public class StaticPatientRepository implements PatientRepository {
+    private static List<Patient> patients;
+    private int lastId;
+
+    public StaticPatientRepository() {
+        patients = new ArrayList<>();
+        patients.add(new Patient(1, "John", "Doe", LocalDate.of(2000, 1, 1)));
+        patients.add(new Patient(2, "Juan", "Perez", LocalDate.of(1990, 4, 12)));
+        patients.add(new Patient(3, "Pedro", "Garcia", LocalDate.of(1995, 5, 1)));
+        patients.add(new Patient(4, "Maria", "Rodriguez", LocalDate.of(1980, 1, 15)));
+        patients.add(new Patient(5, "Ana", "Gonzalez", LocalDate.of(1975, 6, 20)));
+        patients.add(new Patient(6, "Luis", "Sanchez", LocalDate.of(1960, 7, 25)));
+        // El último ID
+        this.lastId = patients.get(patients.size() - 1).getId();
+    }
+    public int save(Patient patient) {
+        // Incrementamos el último ID y lo asignamos al nuevo paciente
+//        lastId++;
+//        patient.setId(lastId);
+//        patients.add(patient);
+//        return patient.getId();
+
+        return 0;
+    }
+
+    public List<Patient> getAll() {
+        return patients;
+    }
+
+    public void delete(int patientId, boolean confirm) {
+        //patients.removeIf(patient -> patient.getId() == patientId);
+
+    }
+
+    public void update(Patient patient) {
+
+//        for (Patient existingPatient : patients) {
+//            if (existingPatient.getId() == patient.getId()) {
+//                existingPatient.setName(patient.getName());
+//                existingPatient.setPhone(patient.getPhone());
+//                existingPatient.setBirthday(patient.getBirthday());
+//                break;
+//            }
+//        }
+    }
+}

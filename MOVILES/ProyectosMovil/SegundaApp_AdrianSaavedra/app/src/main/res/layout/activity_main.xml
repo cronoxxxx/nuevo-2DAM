@@ -87,6 +87,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEstatura"
         tools:ignore="SpeakableTextPresentCheck"
+        style="@style/Widget.App.Slider"
+
         />
 
 
@@ -177,7 +179,8 @@
         android:text="@string/terms_and_conditions"
         app:layout_constraintBottom_toTopOf="@+id/updateButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:buttonTint="@color/primary"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/addButton"
@@ -185,8 +188,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/a_adir"
-
         app:icon="@drawable/ic_add"
+        android:textColor="@color/primary"
+
+        app:iconTint="@color/primary"
         app:layout_constraintBottom_toBottomOf="@id/updateButton"
         app:layout_constraintEnd_toStartOf="@+id/updateButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -202,7 +207,9 @@
         app:icon="@drawable/ic_update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/deleteButton"
+        android:textColor="@color/primary"
 
+        app:iconTint="@color/primary"
         app:layout_constraintStart_toEndOf="@id/addButton" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -221,6 +228,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete"
+        android:textColor="@color/primary"
+
+        app:iconTint="@color/primary"
         app:icon="@drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="@id/updateButton"
         app:layout_constraintEnd_toEndOf="parent"

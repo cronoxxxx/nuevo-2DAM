@@ -1,7 +1,8 @@
 package com.example.hospitalcrud.domain.services;
 
 import com.example.hospitalcrud.dao.model.Doctor;
-import com.example.hospitalcrud.dao.repositories.statics.DoctorRepository;
+import com.example.hospitalcrud.dao.repositories.DoctorRepository;
+import com.example.hospitalcrud.dao.repositories.statics.StaticDoctorRepository;
 import com.example.hospitalcrud.domain.model.DoctorUI;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 @Service
 public class DoctorService {
-    private DoctorRepository doctorRepository;
-    public DoctorService() {
-        this.doctorRepository = new DoctorRepository();
+    private final DoctorRepository doctorRepository;
+    public DoctorService(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
     }
 
     public List<DoctorUI> getAll() {

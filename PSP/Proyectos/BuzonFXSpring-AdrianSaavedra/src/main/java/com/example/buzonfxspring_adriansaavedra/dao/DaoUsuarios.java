@@ -13,7 +13,6 @@ public interface DaoUsuarios {
 
     Usuario verificacion(Usuario nickname);
 
-    boolean addUsuario(Usuario usuario);
 
     Usuario buscarUsuarioPorNombre(String nombre);
 

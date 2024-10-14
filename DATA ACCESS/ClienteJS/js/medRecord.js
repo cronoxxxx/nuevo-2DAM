@@ -117,7 +117,7 @@ function updateMedRecord(event) {
 
 //Function to get the selected medications from the HTML select control
 function getSelectedMeds(medsSelect) {
-    medsSelectControl= document.getElementById(medsSelect)
+    let medsSelectControl = document.getElementById(medsSelect)
     var selectedOptions = [];
     for (var i = 0; i < medsSelectControl.options.length; i++) {
         var option = medsSelectControl.options[i];
@@ -136,7 +136,7 @@ function modifyMedRecordHTMLtable(data) {
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         // Verificamos si el ID de la fila coincide con el ID proporcionado en data
-        if (row.cells[0].textContent == data.id) {
+        if (row.cells[0].textContent === data.id) {
             // Actualizamos los datos de la fila
             row.cells[1].textContent = data.description;
             row.cells[2].textContent = data.date;

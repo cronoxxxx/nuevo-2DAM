@@ -20,7 +20,5 @@ public interface DaoGrupos {
 
     Grupo ingresar(Grupo grupo);
 
-    boolean addGroup(Grupo grupo);
-
     boolean agregarMiembroGrupo(Grupo grupo, Usuario miembro);
 }

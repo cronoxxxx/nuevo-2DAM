@@ -9,4 +9,7 @@
     <dimen name="margin_end">30dp</dimen>
     <dimen name="great_me">60dp</dimen>
     <item name="default_guide" type="dimen" format="float">0.5</item>
+    <dimen name="thumb_radius">12dp</dimen>
+    <dimen name="halo_radius">24dp</dimen>
+    <dimen name="thumb_elevation">2dp</dimen>
 </resources>

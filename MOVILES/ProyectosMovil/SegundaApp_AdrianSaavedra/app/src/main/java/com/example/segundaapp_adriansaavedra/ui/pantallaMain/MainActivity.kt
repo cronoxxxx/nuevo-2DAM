@@ -99,8 +99,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun crearPersonaDesdeUI(): Persona {
-        return Persona(
+    private fun crearPersonaDesdeUI(): Persona =
+        Persona(
             nombre = binding.etNombre.text.toString(),
             email = binding.etEmail.text.toString(),
             estatura = binding.slEstatura.value.toInt(),
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             },
             aceptarTerminos = binding.cbTerms.isChecked
         )
-    }
+
 
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
