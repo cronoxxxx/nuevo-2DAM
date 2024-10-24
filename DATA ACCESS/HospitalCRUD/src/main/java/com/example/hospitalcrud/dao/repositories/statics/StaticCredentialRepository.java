@@ -8,21 +8,15 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Profile("this")
+@Profile("files")
 @Repository
 public class StaticCredentialRepository implements CredentialRepository {
-    private List<Credential> credentials = new ArrayList<>();
+    private final List<Credential> credentials = new ArrayList<>();
 
     public Credential get(Credential credential) {
-        credentials.add(new Credential("admin", "admin"));
+        credentials.add(new Credential("root", "root"));
         return credentials.stream().filter(c -> c.getUserName().equals(credential.getUserName()) &&
                 c.getPassword().equals(credential.getPassword())).findFirst().orElse(null);
     }
 
-
-    // The register method can remain as is for now
-    public boolean register(String username, String password) {
-        //TODO
-        return true;
-    }
 }

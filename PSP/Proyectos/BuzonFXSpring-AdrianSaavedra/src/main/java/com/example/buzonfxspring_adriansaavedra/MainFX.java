@@ -1,5 +1,6 @@
 package com.example.buzonfxspring_adriansaavedra;
 
+import com.example.buzonfxspring_adriansaavedra.common.Constantes;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,7 +26,7 @@ public class MainFX implements ApplicationListener<DIJavafx.StageReadyEvent> {
     public void onApplicationEvent(DIJavafx.StageReadyEvent event) {
         try {
             Stage stage = event.getStage();
-            Parent fxmlParent = fxmlLoader.load(getClass().getResourceAsStream("/com/example/buzonfxspring_adriansaavedra/Screen1.fxml"));
+            Parent fxmlParent = fxmlLoader.load(getClass().getResourceAsStream(Constantes.RUTA_GRAFICA));
             stage.setScene(new Scene(fxmlParent));
             stage.show();
         } catch (IOException e) {

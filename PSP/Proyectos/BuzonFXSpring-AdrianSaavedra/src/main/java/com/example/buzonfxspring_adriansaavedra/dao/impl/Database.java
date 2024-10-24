@@ -1,12 +1,16 @@
 package com.example.buzonfxspring_adriansaavedra.dao.impl;
 
+import com.example.buzonfxspring_adriansaavedra.common.Constantes;
 import com.example.buzonfxspring_adriansaavedra.common.config.Configuracion;
+import com.example.buzonfxspring_adriansaavedra.domain.errors.ErrorApp;
+import com.example.buzonfxspring_adriansaavedra.domain.errors.ErrorAppDataBase;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Grupo;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Mensaje;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import io.vavr.control.Either;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -29,84 +33,79 @@ public class Database {
         this.gsonFile = gson;
     }
 
-    public List<Grupo> loadGrupos() {
+    public Either<String, List<Grupo>> loadGrupos() {
         Type userListType = new TypeToken<List<Grupo>>() {
         }.getType();
-        List<Grupo> grupos = null;
+        List<Grupo> grupos;
         try {
             grupos = gsonFile.fromJson(
                     new FileReader(config.getPathJsonGroup()),
                     userListType);
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
+            return Either.left(e.getMessage());
         }
-        return grupos;
+        return Either.right(grupos);
     }
 
-    public boolean saveGrupos(List<Grupo> grupos) {
+    public Either<String, Boolean> saveGrupos(List<Grupo> grupos) {
         String filePath = config.getPathJsonGroup();
         try (FileWriter fw = new FileWriter(filePath)) {
             gsonFile.toJson(grupos, fw);
-            return true;
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            return false;
+            return Either.left( e.getMessage());
         }
+        return Either.right(true);
     }
 
-    public List<Usuario> loadUsuarios() {
+    public Either<ErrorApp, List<Usuario>> loadUsuarios() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type userListType = new TypeToken<ArrayList<Usuario>>() {}.getType();
 
-        List<Usuario> usuarios = new ArrayList<>();
+        List<Usuario> usuarios;
         try {
             usuarios = gson.fromJson(
                     new FileReader(config.getPathJsonUsuarios()),
                     userListType);
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
+            return Either.left(ErrorAppDataBase.NO_CONNECTION);
         }
-        return usuarios;
+        return Either.right(usuarios);
     }
 
-    public boolean saveUsuarios(List<Usuario> usuarios) {
+    public Either<ErrorApp, Boolean> saveUsuarios(List<Usuario> usuarios) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String filePath = config.getPathJsonUsuarios();
 
         try (FileWriter fw = new FileWriter(filePath)) {
             gson.toJson(usuarios, fw);
-            return true;
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            return false;
+            return Either.left(ErrorAppDataBase.NO_CONNECTION);
+        }
+        return Either.right(true);
+    }
+
+    public Either<String, List<Mensaje>> loadMensajes() {
+        Type userListType = new TypeToken<ArrayList<Mensaje>>() {}.getType();
+        try (FileReader reader = new FileReader(config.getPathJsonMessages())) {
+            List<Mensaje> mensajes = gsonFile.fromJson(reader, userListType);
+            return Either.right(mensajes != null ? mensajes : new ArrayList<>());
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return Either.left(Constantes.ERROR_AL_CARGAR_MENSAJES + e.getMessage());
         }
     }
 
-    public List<Mensaje> loadMensajes() {
-        Type userListType = new TypeToken<ArrayList<Mensaje>>() {
-        }.getType();
-        List<Mensaje> mensajes = new ArrayList<>();
-        try {
-            mensajes = this.gsonFile.fromJson(
-                    new FileReader(config.getPathJsonMessages()),
-                    userListType);
-            if (mensajes == null) {
-                mensajes = new ArrayList<>();
-            }
-        } catch (FileNotFoundException e) {
-            log.error(e.getMessage(), e);
-        }
-        return mensajes;
-    }
-
-    public boolean saveMensajes(List<Mensaje> mensajes) {
-        String filePath = config.getPathJsonMessages();
-        try (FileWriter fw = new FileWriter(filePath)) {
-            gsonFile.toJson(mensajes, fw);
-            return true;
+    public Either<String, Boolean> saveMensajes(List<Mensaje> mensajes) {
+        try (FileWriter writer = new FileWriter(config.getPathJsonMessages())) {
+            gsonFile.toJson(mensajes, writer);
+            return Either.right(true);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            return false;
+            return Either.left(Constantes.ERROR_AL_GUARDAR_MENSAJES + e.getMessage());
         }
     }
 }

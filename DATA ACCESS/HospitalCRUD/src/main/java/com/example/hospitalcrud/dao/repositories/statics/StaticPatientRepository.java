@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 @Data
-@Profile("inDevelopment")
+@Profile("static")
 @Repository
 public class StaticPatientRepository implements PatientRepository {
     private static List<Patient> patients;
@@ -27,18 +27,15 @@ public class StaticPatientRepository implements PatientRepository {
         // El último ID
         this.lastId = patients.get(patients.size() - 1).getId();
     }
-    public int save(Patient patient) {
-        // Incrementamos el último ID y lo asignamos al nuevo paciente
-//        lastId++;
-//        patient.setId(lastId);
-//        patients.add(patient);
-//        return patient.getId();
 
-        return 0;
-    }
 
     public List<Patient> getAll() {
         return patients;
+    }
+
+    @Override
+    public int add(Patient patient) {
+        return 0;
     }
 
     public void delete(int patientId, boolean confirm) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 @Repository
-@Profile("inDevelopment")
+@Profile("static")
 public class StaticDoctorRepository implements DoctorRepository {
     private static List <Doctor> doctors = new ArrayList<>();
 

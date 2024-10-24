@@ -155,6 +155,22 @@
       {
         "nombre": "root",
         "password": "root"
+      },
+      {
+        "nombre": "barcelona",
+        "password": "mejorclub"
+      },
+      {
+        "nombre": "toreto",
+        "password": "toreto"
+      },
+      {
+        "nombre": "user18",
+        "password": "3333"
+      },
+      {
+        "nombre": "adrian",
+        "password": "messi"
       }
     ],
     "nombre": "pros",
@@ -175,6 +191,10 @@
       {
         "nombre": "toreto",
         "password": "toreto"
+      },
+      {
+        "nombre": "pito",
+        "password": "pito"
       }
     ],
     "nombre": "hola",
@@ -194,6 +214,14 @@
       },
       {
         "nombre": "user16",
+        "password": "3333"
+      },
+      {
+        "nombre": "toreto",
+        "password": "toreto"
+      },
+      {
+        "nombre": "user18",
         "password": "3333"
       }
     ],
@@ -552,5 +580,36 @@
     },
     "publico": false,
     "fechaCreacion": "2024-10-09T09:51:43.758843700"
+  },
+  {
+    "participantes": [
+      {
+        "nombre": "adrian",
+        "password": "messi"
+      },
+      {
+        "nombre": "toreto",
+        "password": "toreto"
+      }
+    ],
+    "nombre": "pitoclub",
+    "password": "pitoclub",
+    "administrador": {
+      "nombre": "pito",
+      "password": "pito"
+    },
+    "publico": false,
+    "fechaCreacion": "2024-10-23T00:47:27.509691300"
+  },
+  {
+    "participantes": [],
+    "nombre": "aea",
+    "password": "aea",
+    "administrador": {
+      "nombre": "toreto",
+      "password": "toreto"
+    },
+    "publico": false,
+    "fechaCreacion": "2024-10-24T12:59:06.858663300"
   }
 ]

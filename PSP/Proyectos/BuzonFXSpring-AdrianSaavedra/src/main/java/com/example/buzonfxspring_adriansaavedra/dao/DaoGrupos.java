@@ -2,6 +2,7 @@ package com.example.buzonfxspring_adriansaavedra.dao;
 
 import com.example.buzonfxspring_adriansaavedra.domain.model.Grupo;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Usuario;
+import io.vavr.control.Either;
 
 import java.util.List;
 
@@ -9,16 +10,16 @@ public interface DaoGrupos {
 
 
 
-    boolean actualizarGrupo(Grupo grupo);
+    Either<String, Boolean> actualizarGrupo(Grupo grupo);
 
-    List<Grupo> obtenerGrupos();
+    Either<String, List<Grupo>> obtenerGrupos();
 
-    boolean saveGrupos(List<Grupo> grupos);
-    List<String> obtenerGruposParaUsuario(String nombreUsuario, boolean publico);
+    Either<String, Boolean> saveGrupos(List<Grupo> grupos);
+    Either<String, List<String>> obtenerGruposParaUsuario(String nombreUsuario, boolean publico);
 
-    Grupo obtenerGrupoPorNombre(String nombreGrupo);
+    Either<String, Grupo> obtenerGrupoPorNombre(String nombreGrupo);
 
-    Grupo ingresar(Grupo grupo);
+    Either<String, Grupo> ingresar(Grupo grupo);
 
-    boolean agregarMiembroGrupo(Grupo grupo, Usuario miembro);
+    Either<String, Boolean> agregarMiembroGrupo(Grupo grupo, Usuario miembro);
 }

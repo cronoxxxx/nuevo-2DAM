@@ -8,7 +8,7 @@ import java.util.List;
 public interface PatientRepository {
 
     List<Patient> getAll();
-    int save(Patient patient);
+    int add(Patient patient);
     void delete(int id, boolean confirm);
     void update(Patient patient);
 }

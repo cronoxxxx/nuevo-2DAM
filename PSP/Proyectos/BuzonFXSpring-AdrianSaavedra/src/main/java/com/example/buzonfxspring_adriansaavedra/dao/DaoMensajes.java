@@ -6,12 +6,15 @@ import com.example.buzonfxspring_adriansaavedra.domain.model.Usuario;
 
 import java.util.List;
 
+
+import io.vavr.control.Either;
+
 public interface DaoMensajes {
 
-    List<Mensaje> obtenerMensajes();
-    List<Mensaje> obtenerMensajesParaUsuario(Usuario usuario);
+    Either<String, List<Mensaje>> obtenerMensajes();
+    Either<String, List<Mensaje>> obtenerMensajesParaUsuario(Usuario usuario);
 
-    List<Mensaje> obtenerMensajesDeGrupo(Grupo grupo);
+    Either<String, List<Mensaje>> obtenerMensajesDeGrupo(Grupo grupo);
 
-    boolean addMensajes(Mensaje mensaje);
+    Either<String, Boolean> addMensajes(Mensaje mensaje);
 }

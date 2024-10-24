@@ -1,10 +1,13 @@
 package com.example.buzonfxspring_adriansaavedra.domain.service;
 
+import com.example.buzonfxspring_adriansaavedra.common.Constantes;
 import com.example.buzonfxspring_adriansaavedra.dao.impl.DaoUsuariosImpl;
+import com.example.buzonfxspring_adriansaavedra.domain.errors.ErrorApp;
+import com.example.buzonfxspring_adriansaavedra.domain.errors.ErrorAppDatosNoValidos;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Usuario;
 import com.example.buzonfxspring_adriansaavedra.domain.validators.UserValidator;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 @Service
 public class GestionUsuarios implements IGestionUsuarios {
@@ -18,45 +21,43 @@ public class GestionUsuarios implements IGestionUsuarios {
     }
 
     @Override
-    public List<Usuario> obtenerUsuarios() {
+    public Either<ErrorApp, List<Usuario>> obtenerUsuarios() {
         return dao.obtenerUsuarios();
     }
 
 
     @Override
-    public boolean saveUsuarios(List<Usuario> usuarios) {
+    public Either<ErrorApp, Boolean> saveUsuarios(List<Usuario> usuarios) {
         return dao.saveUsuarios(usuarios);
     }
 
 
 
     @Override
-    public Usuario verificacion(Usuario nickname) {
-        if (userValidator.validateUser(nickname)) {
-            return dao.verificacion(nickname);
-        } else {
-            return null;
-        }
+    public Either<ErrorApp, Usuario> verificacion(Usuario nickname) {
+        return userValidator.validateUser(nickname)
+                .flatMap(valid -> dao.verificacion(nickname))
+                .mapLeft(error -> new ErrorAppDatosNoValidos(Constantes.USUARIO_NO_VALIDO));
+    }
+    @Override
+    public Either<ErrorApp, Boolean> addUsuario(Usuario usuario) {
+        return userValidator.validateUser(usuario)
+                .flatMap(valid -> obtenerUsuarios()
+                        .flatMap(usuarios -> {
+                            usuarios.add(usuario);
+                            return saveUsuarios(usuarios);
+                        }))
+                .mapLeft(error -> new ErrorAppDatosNoValidos(Constantes.USUARIO_NO_VALIDO));
     }
 
-    @Override
-    public boolean addUsuario(Usuario usuario) {
-        List<Usuario> usuarios = obtenerUsuarios();
-        if (userValidator.validateUser(usuario)) {
-            usuarios.add(usuario);
-            return saveUsuarios(usuarios);
-        } else {
-            return false;
-        }
-    }
 
     @Override
-    public Usuario buscarUsuarioPorNombre(String nombre) {
+    public Either<ErrorApp, Usuario> buscarUsuarioPorNombre(String nombre) {
         return dao.buscarUsuarioPorNombre(nombre);
     }
 
     @Override
-    public List<Usuario> buscarUsuariosPorNombres(List<String> nombres) {
+    public Either<ErrorApp, List<Usuario>> buscarUsuariosPorNombres(List<String> nombres) {
         return dao.buscarUsuariosPorNombres(nombres);
     }
 }

@@ -20,8 +20,10 @@ public class RestMedicalRecord {
     //Find patient medRecords
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @GetMapping("/patients/{patientID}/medRecords")
-    public List<MedRecordUI> getAll(@PathVariable int patientID)  {
-        return medRecordService.getAll(patientID);
+    public List<MedRecordUI> getAll(@PathVariable int patientID) {
+
+        List<MedRecordUI> records = medRecordService.getAll(patientID);
+        return records;
     }
 
     //Add

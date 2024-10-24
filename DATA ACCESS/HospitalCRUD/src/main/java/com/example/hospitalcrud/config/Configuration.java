@@ -1,8 +1,8 @@
 
 package com.example.hospitalcrud.config;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+
+
 import java.util.Properties;
 
 public class Configuration {
@@ -13,7 +13,7 @@ public class Configuration {
     private Configuration() {
         try {
             p = new Properties();
-            p.load(Configuration.class.getClassLoader().getResourceAsStream("config/properties.txt"));
+            p.loadFromXML(Configuration.class.getClassLoader().getResourceAsStream("config/properties.xml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,15 +32,8 @@ public class Configuration {
     }
     public void setProperty(String key, String value) {
         p.setProperty(key, value);
-        saveProperties();
     }
 
-    public void saveProperties() {
-        try (OutputStream output = new FileOutputStream("src\\main\\resources\\config\\properties.txt")) {
-            p.store(output, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
 }

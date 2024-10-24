@@ -6,7 +6,11 @@ import com.example.hospitalcrud.dao.repositories.MedRecordRepository;
 import com.example.hospitalcrud.dao.repositories.statics.StaticMedRecordRepository;
 import com.example.hospitalcrud.domain.model.MedRecordUI;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class MedRecordService {
     private final MedRecordRepository medRecordRepository;
@@ -16,19 +20,24 @@ public class MedRecordService {
     }
 
     public void update(MedRecordUI medRecordUI) {
-        medRecordRepository.update(medRecordUI);
+        MedRecord medRecord = convertToMedRecord(medRecordUI);
+        medRecordRepository.update(medRecord);
     }
 
     public List<MedRecordUI> getAll(int idPatient) {
         List<MedRecord> allMedRecords = medRecordRepository.getAll();
+
+
         return allMedRecords.stream()
                 .filter(medRecord -> medRecord.getIdPatient() == idPatient)
                 .map(this::convertToMedRecordUI)
-                .toList();
+                .collect(Collectors.toList());
+
     }
 
     public int add(MedRecordUI medRecordUI) {
-        return medRecordRepository.add(medRecordUI);
+        MedRecord medRecord = convertToMedRecord(medRecordUI);
+        return medRecordRepository.add(medRecord);
     }
 
     public void delete(int id) {
@@ -46,5 +55,22 @@ public class MedRecordService {
                         .map(Medication::getMedicationName)
                         .toList())
                 .build();
+    }
+
+    private MedRecord convertToMedRecord(MedRecordUI medRecordUI) {
+        return MedRecord.builder()
+                .id(medRecordUI.getId())
+                .idPatient(medRecordUI.getIdPatient())
+                .idDoctor(medRecordUI.getIdDoctor())
+                .diagnosis(medRecordUI.getDescription())
+                .date(LocalDate.parse(medRecordUI.getDate()))
+                .medications(convertToMedications(medRecordUI.getMedications(), medRecordUI.getId()))
+                .build();
+    }
+
+    private List<Medication> convertToMedications(List<String> medicationNames, int medRecordId) {
+        return medicationNames.stream()
+                .map(name -> new Medication(0, name, medRecordId))
+                .toList();
     }
 }

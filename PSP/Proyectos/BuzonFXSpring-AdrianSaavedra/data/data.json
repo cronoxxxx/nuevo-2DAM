@@ -206,5 +206,13 @@
   {
     "nombre": "barcelona",
     "password": "mejorclub"
+  },
+  {
+    "nombre": "adrian",
+    "password": "1234"
+  },
+  {
+    "nombre": "pito",
+    "password": "pito"
   }
 ]

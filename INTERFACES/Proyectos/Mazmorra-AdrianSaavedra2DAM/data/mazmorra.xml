@@ -1,0 +1,50 @@
+<dungeon>
+    <room id="R0">
+        <door name="Oeste" dest="R1"/>
+        <door name="Norte" dest="R3"/>
+        <door name="Este" dest="R5"/>
+        <door name="Sur" dest="R7"/>
+        <description>Entrada mazmorra</description>
+    </room>
+    <room id="R1">
+        <door name="Este" dest="R0"/>
+        <door name="Norte" dest="R2"/>
+        <door name="Sur" dest="R8"/>
+        <description>Habitación vacía</description>
+    </room>
+    <room id="R2">
+        <door name="Sur" dest="R1"/>
+        <door name="Este" dest="R3"/>
+        <description>Habitación pequeña</description>
+    </room>
+    <room id="R3">
+        <door name="Sur" dest="R0"/>
+        <door name="Oeste" dest="R2"/>
+        <door name="Este" dest="R4"/>
+        <description>Habitación grande</description>
+    </room>
+    <room id="R4">
+        <door name="Oeste" dest="R3"/>
+        <door name="Sur" dest="R5"/>
+        <description>Habitación oscura</description>
+    </room>
+    <room id="R5">
+        <door name="Oeste" dest="R2"/>
+        <door name="Este" dest="R6"/>
+        <description>Habitación secreta</description>
+    </room>
+    <room id="R6">
+        <door name="Norte" dest="R5"/>
+        <door name="Oeste" dest="R7"/>
+        <description>Habitación con reliquias</description>
+    </room>
+    <room id="R7">
+        <door name="Este" dest="R8"/>
+        <door name="Oeste" dest="R2"/>
+        <description>Habitación con dos puertas</description>
+    </room>
+    <room id="R8">
+        <door name="Oeste" dest="R7"/>
+        <description>Habitación con una puerta</description>
+    </room>
+</dungeon>

@@ -13,7 +13,7 @@ public class Configuracion {
     private String pathJsonUsuarios;
 
 
-    public Configuracion(){
+    private Configuracion(){
 
         try {
             Properties p = new Properties();

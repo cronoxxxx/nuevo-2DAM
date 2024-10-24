@@ -1,10 +1,13 @@
 package com.example.buzonfxspring_adriansaavedra.dao.impl;
 
+import com.example.buzonfxspring_adriansaavedra.common.Constantes;
 import com.example.buzonfxspring_adriansaavedra.dao.DaoGrupos;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Grupo;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Usuario;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,64 +19,88 @@ public class DaoGruposImpl implements DaoGrupos {
 
         this.grupos = grupos;
     }
+
     @Override
-    public boolean actualizarGrupo(Grupo grupo) {
-        List<Grupo> grupoList = obtenerGrupos();
-        for (int i = 0; i < grupoList.size(); i++) {
-            if (grupoList.get(i).getNombre().equals(grupo.getNombre())) {
-                grupoList.set(i, grupo);
-                return saveGrupos(grupoList);
-            }
-        }
-        return false;
+    public Either<String, Boolean> actualizarGrupo(Grupo grupo) {
+        return obtenerGrupos()
+                .map(list -> {
+                    List<Grupo> grupoList = new ArrayList<>(list);
+                    grupoList.stream()
+                            .filter(g -> g.getNombre().equals(grupo.getNombre()))
+                            .findFirst()
+                            .ifPresent(g -> grupoList.set(grupoList.indexOf(g), grupo));
+                    return grupoList;
+                })
+                .flatMap(this::saveGrupos)
+                .mapLeft(error -> Constantes.ERROR_AL_ACTUALIZAR_GRUPO + error);
     }
 
     @Override
-    public List<Grupo> obtenerGrupos() {
+    public Either<String, List<Grupo>> obtenerGrupos() {
         return grupos.loadGrupos();
     }
 
     @Override
-    public boolean saveGrupos(List<Grupo> grupos) {
+    public Either<String, Boolean> saveGrupos(List<Grupo> grupos) {
         return this.grupos.saveGrupos(grupos);
-    }
-    @Override
-    public List<String> obtenerGruposParaUsuario(String nombreUsuario, boolean publico) {
-        saveGrupos(obtenerGrupos());
-        return obtenerGrupos().stream()
-                .filter(grupo -> grupo.isPublico() == publico)
-                .filter(grupo -> grupo.getParticipantes().stream()
-                        .anyMatch(participante -> participante.getNombre().equals(nombreUsuario)) ||
-                        grupo.getAdministrador().getNombre().equals(nombreUsuario))
-                .map(Grupo::getNombre).toList();
-    }
-    @Override
-    public Grupo obtenerGrupoPorNombre(String nombreGrupo) {
-        saveGrupos(obtenerGrupos());
-        return obtenerGrupos().stream()
-                .filter(g -> g != null && g.getNombre() != null)
-                .filter(g -> g.getNombre().equals(nombreGrupo))
-                .findFirst()
-                .orElse(null);
-    }
-    @Override
-    public Grupo ingresar(Grupo grupo) {
-        saveGrupos(obtenerGrupos());
-        return obtenerGrupos().stream()
-                .filter(g -> g != null && g.getNombre() != null && g.getPassword() != null)
-                .filter(g -> g.getNombre().equals(grupo.getNombre()) && g.getPassword().equals(grupo.getPassword()) && g.isPublico() == grupo.isPublico())
-                .findFirst()
-                .orElse(null);
     }
 
     @Override
-    public boolean agregarMiembroGrupo(Grupo grupo, Usuario miembro) {
-        boolean exists = grupo.getParticipantes().stream()
-                .anyMatch(p -> p.getNombre().equals(miembro.getNombre())
-                        && p.getPassword().equals(miembro.getPassword()));
-        if (!exists) {
-            grupo.getParticipantes().add(miembro);
-        }
-        return exists;
+    public Either<String, List<String>> obtenerGruposParaUsuario(String nombreUsuario, boolean publico) {
+        return obtenerGrupos()
+                .flatMap(list -> {
+                    List<String> gruposUsuario = list.stream()
+                            .filter(grupo -> grupo.isPublico() == publico)
+                            .filter(grupo ->
+                                    grupo.getParticipantes().stream()
+                                            .anyMatch(participante -> participante.getNombre().equals(nombreUsuario)) ||
+                                            grupo.getAdministrador().getNombre().equals(nombreUsuario))
+                            .map(Grupo::getNombre)
+                            .toList();
+                    return gruposUsuario.isEmpty()
+                            ? Either.left(Constantes.NO_SE_ENCONTRARON_GRUPOS)
+                            : Either.right(gruposUsuario);
+                })
+                .mapLeft(error -> Constantes.ERROR_AL_OBTENER_GRUPOS + error);
     }
-}
+
+    @Override
+    public Either<String, Grupo> obtenerGrupoPorNombre(String nombreGrupo) {
+        return obtenerGrupos().flatMap(list -> {
+            saveGrupos(list);
+            return list.stream().filter(g -> g != null && g.getNombre() != null)
+                    .filter(g -> g.getNombre().equals(nombreGrupo))
+                    .findFirst()
+                    .map(Either::<String, Grupo>right).orElse(Either.left(Constantes.NO_HAY_GRUPO_ENCONTRADO));
+        });
+    }
+
+    @Override
+    public Either<String, Grupo> ingresar(Grupo grupo) {
+
+        return obtenerGrupos().flatMap(list -> {
+            saveGrupos(list);
+            return list.stream().filter(g -> g != null && g.getNombre() != null && g.getPassword() != null)
+                    .filter(g -> g.getNombre().equals(grupo.getNombre()) && g.getPassword().equals(grupo.getPassword()) && g.isPublico() == grupo.isPublico())
+                    .findFirst().map(Either::<String, Grupo>right).orElse(Either.left(Constantes.NO_HAY_GRUPO_ENCONTRADO));
+        });
+    }
+
+    @Override
+    public Either<String, Boolean> agregarMiembroGrupo(Grupo grupo, Usuario miembro) {
+        return Either.right(grupo)
+                .flatMap(g -> {
+                    boolean exists = g.getParticipantes().stream()
+                            .anyMatch(p -> p.getNombre().equals(miembro.getNombre())
+                                    && p.getPassword().equals(miembro.getPassword()));
+
+                    if (exists) {
+                        return Either.right(false);
+                    }
+                    g.getParticipantes().add(miembro);
+                    return saveGrupos(obtenerGrupos().getOrElse(ArrayList::new))
+                            .map(saved -> true)
+                            .mapLeft(error -> Constantes.ERROR_AL_GUARDAR_GRUPO + error);
+                })
+                .mapLeft(error -> Constantes.ERROR_AL_AGREGAR_MIEMBRO + error);
+    }}

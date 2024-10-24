@@ -4,5 +4,4 @@ import com.example.hospitalcrud.dao.model.Credential;
 
 public interface CredentialRepository {
     Credential get(Credential credential);
-    boolean register(String username, String password);
 }

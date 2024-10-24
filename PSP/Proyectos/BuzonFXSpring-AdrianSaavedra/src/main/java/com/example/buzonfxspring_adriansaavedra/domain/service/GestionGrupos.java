@@ -1,9 +1,11 @@
 package com.example.buzonfxspring_adriansaavedra.domain.service;
 
+import com.example.buzonfxspring_adriansaavedra.common.Constantes;
 import com.example.buzonfxspring_adriansaavedra.dao.impl.DaoGruposImpl;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Grupo;
 import com.example.buzonfxspring_adriansaavedra.domain.model.Usuario;
 import com.example.buzonfxspring_adriansaavedra.domain.validators.GrupoValidator;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,61 +20,57 @@ public class GestionGrupos implements IGestionGrupos {
         this.grupoValidator = grupoValidator;
     }
 
-
     @Override
-    public boolean actualizarGrupo(Grupo grupo) {
-       return daoGrupos.actualizarGrupo(grupo);
+    public Either<String, Boolean> actualizarGrupo(Grupo grupo) {
+        return grupoValidator.validateGrupo(grupo)
+                .flatMap(valid -> daoGrupos.actualizarGrupo(grupo))
+                .mapLeft(error -> Constantes.GRUPO_NO_VALIDO);
     }
 
+
     @Override
-    public List<Grupo> obtenerGrupos() {
+    public Either<String, List<Grupo>> obtenerGrupos() {
         return daoGrupos.obtenerGrupos();
     }
 
     @Override
-    public boolean saveGrupos(List<Grupo> grupos) {
+    public Either<String, Boolean> saveGrupos(List<Grupo> grupos) {
         return daoGrupos.saveGrupos(grupos);
     }
 
     @Override
-    public List<String> obtenerGruposParaUsuario(String nombreUsuario, boolean publico) {
+    public Either<String, List<String>> obtenerGruposParaUsuario(String nombreUsuario, boolean publico) {
         return daoGrupos.obtenerGruposParaUsuario(nombreUsuario, publico);
     }
 
     @Override
-    public Grupo obtenerGrupoPorNombre(String nombreGrupo) {
+    public Either<String, Grupo> obtenerGrupoPorNombre(String nombreGrupo) {
         return daoGrupos.obtenerGrupoPorNombre(nombreGrupo);
     }
 
     @Override
-    public Grupo ingresar(Grupo grupo) {
-        if (grupoValidator.validateGrupo(grupo)) {
-            return daoGrupos.ingresar(grupo);
-        } else {
-            return null;
-        }
+    public Either<String, Grupo> ingresar(Grupo grupo) {
+        return grupoValidator.validateGrupo(grupo)
+                .flatMap(valid -> daoGrupos.ingresar(grupo))
+                .mapLeft(error -> Constantes.GRUPO_NO_VALIDO);
     }
 
     @Override
-    public boolean addGroup(Grupo grupo) {
-        List<Grupo> grupos = obtenerGrupos();
-        if (grupoValidator.validateGrupo(grupo) && grupo.getAdministrador() != null) {
-            grupos.add(grupo);
-            return saveGrupos(grupos);
-        } else {
-            return false;
-        }
+    public Either<String, Boolean> addGroup(Grupo grupo) {
+        return grupoValidator.validateGrupo(grupo)
+                .flatMap(valid -> grupo.getAdministrador() == null
+                        ? Either.left(Constantes.GRUPO_NO_VALIDO)
+                        : obtenerGrupos().flatMap(grupos -> {
+                    grupos.add(grupo);
+                    return saveGrupos(grupos);
+                }))
+                .mapLeft(error -> Constantes.GRUPO_NO_VALIDO);
     }
-
 
     @Override
-    public boolean agregarMiembroGrupo(Grupo grupo, Usuario miembro) {
-        if (grupoValidator.validateGrupo(grupo)) {
-            return daoGrupos.agregarMiembroGrupo(grupo, miembro);
-        } else {
-            return false;
-        }
-
+    public Either<String, Boolean> agregarMiembroGrupo(Grupo grupo, Usuario miembro) {
+        return grupoValidator.validateGrupo(grupo)
+                .flatMap(valid -> daoGrupos.agregarMiembroGrupo(grupo, miembro))
+                .mapLeft(error -> Constantes.GRUPO_NO_VALIDO);
     }
-
 }

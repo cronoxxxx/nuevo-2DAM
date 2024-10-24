@@ -1448,5 +1448,217 @@
         "password": "mejorclub"
       }
     ]
+  },
+  {
+    "texto": "sadsadasdasd",
+    "fecha": "2024-10-22T21:31:34.665287400",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [],
+    "group": "grupoa"
+  },
+  {
+    "texto": "asdsadasd",
+    "fecha": "2024-10-22T21:31:38.426826100",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [
+      {
+        "nombre": "root",
+        "password": "root"
+      },
+      {
+        "nombre": "barcelona",
+        "password": "mejorclub"
+      }
+    ]
+  },
+  {
+    "texto": "asdsadsad",
+    "fecha": "2024-10-22T21:32:28.680657500",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [],
+    "group": "alasecret"
+  },
+  {
+    "texto": "sadasd",
+    "fecha": "2024-10-23T00:39:15.568348200",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [],
+    "group": "hola"
+  },
+  {
+    "texto": "sadsadsd",
+    "fecha": "2024-10-23T00:39:20.128837800",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [
+      {
+        "nombre": "adrian",
+        "password": "messi"
+      },
+      {
+        "nombre": "toreto",
+        "password": "toreto"
+      },
+      {
+        "nombre": "adrian",
+        "password": "1234"
+      }
+    ]
+  },
+  {
+    "texto": "dasdsad",
+    "fecha": "2024-10-23T00:46:43.887997800",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [],
+    "group": "blablabla"
+  },
+  {
+    "texto": "asdsadsadasd",
+    "fecha": "2024-10-23T00:48:01.825606200",
+    "owner": {
+      "nombre": "pito",
+      "password": "pito"
+    },
+    "destinatarios": [],
+    "group": "pitoclub"
+  },
+  {
+    "texto": "asdsadsad",
+    "fecha": "2024-10-23T00:48:05.764244800",
+    "owner": {
+      "nombre": "pito",
+      "password": "pito"
+    },
+    "destinatarios": [
+      {
+        "nombre": "adrian",
+        "password": "messi"
+      },
+      {
+        "nombre": "toreto",
+        "password": "toreto"
+      },
+      {
+        "nombre": "adrian",
+        "password": "1234"
+      },
+      {
+        "nombre": "pito",
+        "password": "pito"
+      }
+    ]
+  },
+  {
+    "texto": "assadasdsad",
+    "fecha": "2024-10-23T00:50:22.169083100",
+    "owner": {
+      "nombre": "pito",
+      "password": "pito"
+    },
+    "destinatarios": [],
+    "group": "hola"
+  },
+  {
+    "texto": "sadsadsad",
+    "fecha": "2024-10-23T00:50:28.965406900",
+    "owner": {
+      "nombre": "pito",
+      "password": "pito"
+    },
+    "destinatarios": [
+      {
+        "nombre": "adrian",
+        "password": "messi"
+      },
+      {
+        "nombre": "adrian",
+        "password": "1234"
+      },
+      {
+        "nombre": "pito",
+        "password": "pito"
+      }
+    ]
+  },
+  {
+    "texto": "sdasdasd",
+    "fecha": "2024-10-23T19:58:43.345863300",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [
+      {
+        "nombre": "adrian",
+        "password": "messi"
+      },
+      {
+        "nombre": "adrian",
+        "password": "1234"
+      },
+      {
+        "nombre": "pito",
+        "password": "pito"
+      }
+    ]
+  },
+  {
+    "texto": "asdasdasdasdasdasd",
+    "fecha": "2024-10-24T12:57:48.993582400",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [],
+    "group": "grupoa"
+  },
+  {
+    "texto": "asdasdasd",
+    "fecha": "2024-10-24T12:57:53.023129",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [
+      {
+        "nombre": "adrian",
+        "password": "messi"
+      },
+      {
+        "nombre": "root",
+        "password": "root"
+      },
+      {
+        "nombre": "adrian",
+        "password": "1234"
+      }
+    ]
+  },
+  {
+    "texto": "sadsadas",
+    "fecha": "2024-10-24T12:57:59.265152700",
+    "owner": {
+      "nombre": "adrian",
+      "password": "messi"
+    },
+    "destinatarios": [],
+    "group": "holasecreto"
   }
 ]

@@ -1,7 +1,6 @@
 package com.example.hospitalcrud.dao.repositories;
 
 import com.example.hospitalcrud.dao.model.MedRecord;
-import com.example.hospitalcrud.domain.model.MedRecordUI;
 
 import java.util.List;
 
@@ -9,9 +8,10 @@ public interface MedRecordRepository {
 
     List<MedRecord> getAll();
 
-    int add(MedRecordUI medRecordUI);
+    int add(MedRecord medRecord);
 
-    void update(MedRecordUI medRecordUI);
+    void update(MedRecord medRecord);
 
-    void deleteMedRecord(int id);
+    void delete(MedRecord medRecord);
+    void delete(int patientId);
 }
